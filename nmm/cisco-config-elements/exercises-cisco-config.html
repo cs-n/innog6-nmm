@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>exercises-cisco-config.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="cisco-config-elements">Cisco Config Elements</h1>
+<h2 id="introduction"><strong>Introduction</strong></h2>
+<h3 id="goals"><strong>Goals</strong></h3>
+<ul>
+<li>Learn the basic set of IOS commands required to enable SSH on your Cisco Switch or Router</li>
+</ul>
+<h3 id="notes"><strong>Notes</strong></h3>
+<ul>
+<li>Commands preceded with &quot;$&quot; imply that you should be working as a regular user.</li>
+<li>Commands preceded with &quot;#&quot; imply that you should be working as root.</li>
+<li>Commands with more specific command lines (e.g. &quot;rtrX&gt;&quot; or &quot;mysql&gt;&quot;) imply that you are executing commands on remote equipment, or within another program.</li>
+<li>If a command line ends with &quot;\&quot; this indicates that the command continues on the next line and you should treat this as a single line.</li>
+<li>References to &quot;N&quot; represent your group number.</li>
+</ul>
+<hr>
+<h2 id="exercises-part-i"><strong>Exercises Part I</strong></h2>
+<h3 id="work-as-a-group"><strong>Work as a group</strong></h3>
+<p>Each group has 2 network devices:</p>
+<ul>
+<li><strong>rtr1-gY.lab.shakya.io</strong></li>
+</ul>
+<p>Each of these devices has the user <strong><em>lab</em></strong> configured with both a log in password and and enable password. At this time telnet is enabled on these devices and ssh is not yet configured.</p>
+<p>As a group you need to update all network devices so that when you finish this lab you can log in as the user <strong><em>lab</em></strong> only using ssh and with the password given in class.</p>
+<h3 id="connect-to-your-router"><strong>Connect to your router</strong></h3>
+<p>First, log in to your virtual machine (<strong>srvX.lab.shakya.io</strong>).</p>
+<p>Next, connect to the network device on which you will be working:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ telnet rtr1-gY.lab.shakya.io
+
+username: lab
+password: &lt;GIVEN IN CLASS&gt;
+</div></code></pre>
+<p>Display information about your network device</p>
+<pre class="hljs"><code><div>rtr1-gY&gt; enable
+Password:                                 (password given in class)
+rtr1-gY# show run                         (space to continue)
+rtr1-gY# show int FastEthernet0/0         (or any other interface that is up)
+rtr1-gY# show ?                           (lists all options)
+</div></code></pre>
+<p><strong>Note:</strong> Press &quot;q&quot; to exit from information screen before reaching the end if you wish, otherwise press the <code>&lt;SPACE BAR&gt;</code> to move scroll through the information until the end.</p>
+<h3 id="configure-your-router-to-only-use-ssh"><strong>Configure your router to only use SSH</strong></h3>
+<p>These steps will do the following:</p>
+<ul>
+<li>Create an ssh key for your router</li>
+<li>Create an encrypted password for the user lab</li>
+<li>Encrypt the enable password</li>
+<li>Turn off telnet (unencrypted) access to your router</li>
+<li>Turn on SSH (version 2) access to your router</li>
+</ul>
+<p>You should be connected to your router and at the enable prompt. The prompt will look something like:</p>
+<pre class="hljs"><code><div>rtr1-gY#
+</div></code></pre>
+<p>At this prompt do the following:</p>
+<pre class="hljs"><code><div>rtr1-gY# configure terminal
+rtr1-gY(config)# aaa new-model
+rtr1-gY(config)# ip domain-name lab.shakya.io
+rtr1-gY(config)# crypto key generate rsa
+
+Choose the size of the key modulus in the range of 360 to 4096 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 2048
+% Generating 2048 bit RSA keys, keys will be non-exportable...
+[OK] (elapsed time was 11 seconds)
+</div></code></pre>
+<p>Wait for the key to generate. You can now specify passwords and they will be encrypted. First let's remove our lab user temporarily, then we'll recreate the user.</p>
+<p><strong>CRITICAL! CRITICAL! CRITICAL!</strong></p>
+<p>PLEASE DO NOT USE ANYTHING OTHER THAN THE CLASS PASSWORD AND THE USER &quot;<em><strong>lab</strong></em>&quot;</p>
+<p>If you use other usernames or passwords you will break exercises for other participants of the class during the week. Thank you!</p>
+<pre class="hljs"><code><div>rtr1-gY(config)# no username lab
+rtr1-gY(config)# username lab secret 0 &lt;CLASS PASSWORD&gt;
+</div></code></pre>
+<p>(First password used to log in on the router).</p>
+<p>The <strong><em>lab</em></strong> user's password (of <code>&lt;CLASS PASSWORD&gt;</code>) is encrypted. Next let's encrypt the enable password as well:</p>
+<pre class="hljs"><code><div>rtr1-g1(config)#no enable password
+rtr1-gY(config)# enable secret 0 &lt;CLASS ENABLE PASSWORD&gt;
+</div></code></pre>
+<p>(Password used after you type <code>enable</code> on the router command line.)</p>
+<p>Now we'll tell our router to only allow SSH connections on the 5 defined consoles (vty 0 through 4):</p>
+<pre class="hljs"><code><div>rtr1-gY(config)# line vty 0 4
+rtr1-gY(config-line)# transport input ssh
+rtr1-gY(config-line)# exit
+</div></code></pre>
+<p>This drops us out of the &quot;line&quot; configuration mode and back in to the general configuration mode. Now we'll tell the router to log SSH-related events and to only allow SSH version 2 connections:</p>
+<pre class="hljs"><code><div>rtr1-gY(config)# ip ssh logging events
+rtr1-gY(config)# ip ssh version 2
+</div></code></pre>
+<p>Now exit from configuration mode:</p>
+<pre class="hljs"><code><div>rtr1-gY(config)# exit
+</div></code></pre>
+<p>And, write these changes to the routers permament configuration:</p>
+<pre class="hljs"><code><div>rtr1-gY# write memory
+</div></code></pre>
+<p>Ok. That's it. You can no longer use telnet to connect to your router. You must connect using SSH with the user <strong><em>lab</em></strong> and password <code>&lt;CLASS PASSWORD&gt;</code>. The enable password is <code>&lt;CLASS ENABLE PASSWORD&gt;</code></p>
+<p>Naturally in a real-world situation you would use much more secure passwords.</p>
+<p>Before you exit your Telnet session be sure to test ssh connectivity from another PC in your group (or, open another terminal window). Do this in case you made a mistake to avoid locking yourself out of your router.</p>
+<p>First, try connection again with telnet from your virtual machine:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ telnet rtr1-gY.lab.shakya.io
+</div></code></pre>
+<p>What happens? You should see something like:</p>
+<pre class="hljs"><code><div>Trying 100.68.100.1...  (<span class="hljs-keyword">for</span> example only)
+telnet: Unable to connect to remote host: Connection refused
+</div></code></pre>
+<p>Now try connecting with SSH:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ ssh lab@rtr1-gY.lab.shakya.io
+</div></code></pre>
+<p>You should see something looks similar to this:</p>
+<pre class="hljs"><code><div>The authenticity of host <span class="hljs-string">'rtr1-g1.lab.shakya.io (100.68.100.1)'</span> can<span class="hljs-string">'t be established.
+RSA key fingerprint is SHA256:9HYY8A9aEJtQz7+Vn8MzFlomLCkUNtboEcQ8ms/BygM.
+Are you sure you want to continue connecting (yes/no)?
+</span></div></code></pre>
+<p>Enter in &quot;yes&quot; and press ENTER to continue...</p>
+<p>Now you'll see the follwoing:</p>
+<pre class="hljs"><code><div>Warning: Permanently added <span class="hljs-string">'rtr1-g1.lab.shakya.io,100.68.100.1'</span> (RSA) to the list of known hosts.
+password:
+</div></code></pre>
+<p>Enter in the <code>&lt;CLASS PASSWORD&gt;</code></p>
+<p>You will end up on a prompt like:</p>
+<pre class="hljs"><code><div>rtr1-gY&gt;
+</div></code></pre>
+<p>(If you receive an error while trying to connect see the <em>Troubleshooting</em> Section below)</p>
+<p>Type &quot;enable&quot; to allow us to execute privileged commands:</p>
+<pre class="hljs"><code><div>rtr1-gY&gt; enable
+Password: &lt;CLASS ENABLE PASSWORD&gt;
+rtr1-gY#
+</div></code></pre>
+<p>Now let's view the current router configuration:</p>
+<pre class="hljs"><code><div>rtr1-gY# show running
+</div></code></pre>
+<p>Press the space bar to continue. Note some of the entries like:</p>
+<pre class="hljs"><code><div>enable secret 5 $1$wGtR$bKZqFAPXYjmV6OrLCC3hP.
+.
+.
+.
+username lab secret 5 $1$DQAd$qB0su4clCXPaSE7miLVcB0
+.
+.           (lots of lines down)
+.
+line vty 0 4
+ exec-timeout 0 0
+ transport preferred none
+ transport input ssh
+</div></code></pre>
+<p>You can see that both the enable password and the password for the user <strong><em>lab</em></strong> have been encrypted. This is a good thing.</p>
+<p>Now you should exit the router interface to complete this exercise:</p>
+<pre class="hljs"><code><div>rtr1-gY# exit
+</div></code></pre>
+<p>And, if you still have your older Telnet session in another window running be sure to exit from that as well.</p>
+<h3 id="troubleshooting"><strong>Troubleshooting</strong></h3>
+<h4 id="%22no-matching-key-exchange-method-found%22"><strong>&quot;no matching key exchange method found&quot;</strong></h4>
+<p>If you attempted to log in and received a message like this:</p>
+<pre class="hljs"><code><div>lab@vm1-g1:~$ ssh rtr1-g1.lab.shakya.io
+Unable to negotiate with 100.68.100.1 port 22: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1
+</div></code></pre>
+<p>The version of software on your network device is using older, weaker encryption ciphers. In order to support this there are a couple of options we can consider:</p>
+<p>You can override ssh refusing to connect to older, vulnerable encrption key exchange algorithm by running the ssh comand like this</p>
+<pre class="hljs"><code><div>lab@srvX:~$ ssh -oKexAlgorithms=+diffie-hellman-group1-sha1 lab@rtr1-gY.lab.shakya.io
+</div></code></pre>
+<p>...but that is painful. Let's update your virtual machine's ssh client configuration to allow for this older key exchange. We'll do this by updating your machine's system-wide ssh-client configuration file. Follow these steps:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ sudo vi /etc/ssh/ssh_config
+</div></code></pre>
+<p>At the very end of the file add the following line:</p>
+<pre class="hljs"><code><div>KexAlgorithms +diffie-hellman-group1-sha1
+</div></code></pre>
+<p>Save the file and exit.</p>
+<p>Now try connecting to your network device again:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ ssh lab@rtr1-gY.lab.shakya.io
+</div></code></pre>
+<h4 id="%22no-matching-cipher-found%22"><strong>&quot;no matching cipher found&quot;</strong></h4>
+<p>With newer versions of Ubuntu ssh you may get another error:</p>
+<pre class="hljs"><code><div>lab@vm1-g1:~$ ssh rtr1-g1.lab.shakya.io
+Unable to negotiate with 100.68.100.1 port 22: no matching cipher found. Their offer: aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+</div></code></pre>
+<p>Again, this is because the network device is using older ciphers which are not enabled by default in newer versions of OpenSSH.</p>
+<p>You can add <code>-oCiphers=+aes256-cbc</code> to the ssh command line, but it is simpler to edit the configuration file as follows:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ sudo vi /etc/ssh/ssh_config
+</div></code></pre>
+<p>At the very end of the file add this line:</p>
+<pre class="hljs"><code><div>Ciphers +aes256-cbc
+</div></code></pre>
+<p>Save the file and exit, then try connecting to your network device again:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ ssh lab@rtr1-gY.lab.shakya.io
+</div></code></pre>
+<h3 id="notes"><strong>NOTES</strong></h3>
+<ol>
+<li>If you are locked out of your router after this exercise let your instructor know and they can reset your network device's configuration back to its original state.</li>
+<li>Please only do this exercise once. If multiple people do this exercise it's very likely that access to the router will be broken.</li>
+<li>During the week you will configure items such as SNMP, Netflow and more on your local network devices. From now on you can simply connect to the device directly from your laptop or desktop machine using SSH.</li>
+</ol>
+<hr>
+<h2 id="exercises---part-2-ntp-configuration"><strong>Exercises - Part 2: NTP Configuration</strong></h2>
+<h3 id="configure-ntp-and-timezone"><strong>Configure NTP and Timezone</strong></h3>
+<p>Perhaps you can select another person in your group to execute the following steps to allow them to practice.</p>
+<p>Your first step is to connect to your router:</p>
+<pre class="hljs"><code><div>lab@srvX:~$ ssh lab@rtr1-gY.lab.shakya.io
+</div></code></pre>
+<p>Now we will enable the Network Time Protocol so that we can synchronize your router's time with your PCs time so that all devices on our local network will have the same time. To do this follow these steps:</p>
+<pre class="hljs"><code><div>rtr1-gY&gt; enable
+Password:
+rtr1-gY# configure terminal
+rtr1-gY(config)# ip name-server 36.0.4.254 36.0.5.254
+rtr1-gY(config)# ip domain-lookup
+rtr1-gY(config)# ntp server pool.ntp.org
+</div></code></pre>
+<p>At this point you may see something like this:</p>
+<pre class="hljs"><code><div>rtr1-gY(config)#ntp server pool.ntp.org
+Translating &quot;pool.ntp.org&quot;...domain server (100.68.100.244) [OK]
+</div></code></pre>
+<p>Wait a few moments for this to complete and then you can continue.</p>
+<pre class="hljs"><code><div>rtr1-gY(config)# no clock timezone
+rtr1-gY(config)# exit
+rtr1-gY# write memory
+</div></code></pre>
+<p>This uses the NTP time servers run by ntp.org and should end up selecting machines that are geographically near to you. This, also, indicates that you wish to use UTC time (same as GMT time) for this router.</p>
+<p>To verify NTP status, NTP server associations and the reported time on your router:</p>
+<pre class="hljs"><code><div>rtr1-gY# show ntp status
+</div></code></pre>
+<p>After some time you will see something like (you may see &quot;unsynchronized&quot; for a while):</p>
+<pre class="hljs"><code><div>rtr1-gY#show ntp status
+Clock is synchronized, stratum 5, reference is 100.68.100.254
+nominal freq is 250.0000 Hz, actual freq is 250.0000 Hz, precision is 2**18
+ntp uptime is 6500 (1/100 of seconds), resolution is 4000
+reference time is E15D430E.3382AA55 (09:46:54.201 UTC Fri Oct 25 2019)
+clock offset is 42.6024 msec, root delay is 413.38 msec
+root dispersion is 4204.22 msec, peer dispersion is 187.56 msec
+loopfilter state is 'CTRL' (Normal Controlled Loop), drift is 0.000000000 s/s
+system poll interval is 64, last update was 63 sec ago.
+</div></code></pre>
+<p>... and to see the NTP server associations:</p>
+<pre class="hljs"><code><div>rtr1-gY# show ntp associations
+
+  address         ref clock       st   when   poll reach  delay  offset   disp
+*~100.68.100.254  130.54.208.201   4     32     64     7  4.000  42.602  1.883
+ * sys.peer, # selected, + candidate, - outlyer, x falseticker, ~ configured
+</div></code></pre>
+<p>... and, finally, to see your router's current time:</p>
+<pre class="hljs"><code><div>rtr1-gY# show clock
+</div></code></pre>
+<p>You should see something like:</p>
+<pre class="hljs"><code><div>09:51:10.432 UTC Fri Oct 25 2019
+</div></code></pre>
+<p>Now you can exit from your router:</p>
+<pre class="hljs"><code><div>rtr1-gY# exit
+</div></code></pre>
+<p>Make sure your team finishes working on the other devices in your group. If anyone has problems connecting to a device see the <strong><em>Troubleshooting</em></strong> section above.</p>
+<hr>
+
+</body>
+</html>
