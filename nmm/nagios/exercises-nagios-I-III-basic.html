@@ -438,17 +438,17 @@ $ sudo make install-config
 $ sudo a2enmod cgi
 </div></code></pre>
 <p>Now need to create an Apache user account to be able to log into Nagios.
-The following command will create a user account called <em><em>nagiosadmin</em></em> and will be prompted to provide a password for the account.</p>
-<pre class="hljs"><code><div>$ sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users _*nagiosadmin*_
+The following command will create a user account called <em><strong>nagiosadmin</strong></em> and will be prompted to provide a password for the account.</p>
+<pre class="hljs"><code><div>$ sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users _**nagiosadmin**_
 </div></code></pre>
-<p>Please enter <em><em>innog6</em></em> as password at the prompt. Remember this password, as we will need it to access the Nagios web interface.</p>
+<p>Please enter <em><strong>innog6</strong></em> as password at the prompt. Remember this password, as we will need it to access the Nagios web interface.</p>
 <p>Restart Apache to load the new Apache configuration:</p>
 <pre class="hljs"><code><div>$ sudo systemctl restart apache2
 </div></code></pre>
 <p>Nagios is now running, to confirm this you need to log into the Nagios Web Interface. Point the web browserto the ip address or FQDN of your Nagios Core server, for example:</p>
 <pre class="hljs"><code><div>http://srvX.lab.shakya.io/nagios
 </div></code></pre>
-<p>Will be prompted for a username and password. The username is <em><em>nagiosadmin</em></em> and the password is_<em>innog6</em>_</p>
+<p>Will be prompted for a username and password. The username is <em><strong>nagiosadmin</strong></em> and the password is <em><strong>innog6</strong></em></p>
 <p>We have only installed the Nagios Core engine. But for this to work, it is necessary to install the NagiosPlugins, which you’ll cover in the next step.</p>
 <h2 id="4-installing-the-nagios-plugins">4. Installing the Nagios Plugins</h2>
 <p>Nagios needs plugins to operate properly. The official Nagios Plugins package contains over 50 plugins thatallow you to monitor basic services such as uptime, disk usage, swap usage, NTP, and others.</p>
