@@ -439,7 +439,7 @@ $ sudo a2enmod cgi
 </div></code></pre>
 <p>Now need to create an Apache user account to be able to log into Nagios.
 The following command will create a user account called <em><strong>nagiosadmin</strong></em> and will be prompted to provide a password for the account.</p>
-<pre class="hljs"><code><div>$ sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users _**nagiosadmin**_
+<pre class="hljs"><code><div>$ sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 </div></code></pre>
 <p>Please enter <em><strong>innog6</strong></em> as password at the prompt. Remember this password, as we will need it to access the Nagios web interface.</p>
 <p>Restart Apache to load the new Apache configuration:</p>
