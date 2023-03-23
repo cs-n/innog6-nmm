@@ -460,7 +460,7 @@ https://github.com/nagios-plugins/nagios-plugins/\
 </div></code></pre>
 <p>Compile and install:</p>
 <pre class="hljs"><code><div>$ tar zxfv nagios-plugins.tar.gz
-$ cd /tmp/nagios-plugins-release-2.4.0/
+$ cd /tmp/nagios-plugins-2.4.0
 $ sudo ./configure
 $ sudo make
 $ sudo make install
@@ -484,8 +484,8 @@ $ sudo make install
 <p>Now create the directory that will store the configuration file for each server that you will monitor:</p>
 <pre class="hljs"><code><div>$ sudo mkdir /usr/local/nagios/etc/servers
 $ sudo mkdir /usr/local/nagios/etc/routers
-6. Monitoring Hosts with Nagios
 </div></code></pre>
+<p>##6. Monitoring Hosts with Nagios</p>
 <p>To monitor any hosts with Nagios, we will add configuration files for each host specifying what we want tomonitor.</p>
 <p>On the Nagios server, create a new configuration file for each of the remote hosts that we want to monitor in <code>/usr/local/nagios/etc/routers/</code>. The following example is to monitor <code>gw-rtr.lab.shakya.io</code></p>
 <pre class="hljs"><code><div>$ sudo vi /usr/local/nagios/etc/routers/gw-rtr.cfg
