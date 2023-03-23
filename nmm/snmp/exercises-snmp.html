@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>exercises-snmp.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="snmp-exercises">SNMP exercises</h1>
+<h1 id="introduction">Introduction</h1>
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Install and learn to use the SNMP commands</li>
+<li>Explore and identify standard vs enterprise parts of the MIB tree</li>
+<li>Install vendor specific MIBs and use those with the SNMP commands</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Commands preceded with “$” imply that you should execute the command as a general user - not as root.</li>
+<li>Commands preceded with “#” imply that you should be working as root.</li>
+<li>Commands with more specific command lines (e.g. “rtrX&gt;” or “mysql&gt;”) imply that you are executing commands on remote equipment, or within another program.</li>
+</ul>
+<h1 id="installing-snmp-client-manager-tools">Installing snmp client (manager) tools</h1>
+<p>Start by installing the net-snmp tools on your individual host. Connect via ssh to srvX.lab.shakya.io:</p>
+<pre><code>$ sudo apt install snmp
+$ sudo apt install snmp-mibs-downloader
+</code></pre>
+<p>The second of the two commands downloads the standard IETF and IANA SNMP MIBs which are not included by default.</p>
+<p>Note: to find snmp-mibs-downloader, you must enable the “multiverse” source in your APT configuration. This has already been done for you in this workshop.</p>
+<p>Now, edit the file <code>/etc/snmp/snmp.conf</code>:</p>
+<pre><code>$ sudo editor /etc/snmp/snmp.conf
+</code></pre>
+<p>Change this line:</p>
+<pre><code>mibs :
+</code></pre>
+<p>… so that it looks like:</p>
+<pre><code># mibs :
+</code></pre>
+<p>(You are “commenting out” the empty mibs statement, which was telling the snmp* tools <strong>not</strong> to automatically load the mibs in the <code>/usr/share/mibs/</code> directory).</p>
+<p>Save this file and exit.</p>
+<p>Now, in your home directory make a <code>.snmp</code> directory with file <code>snmp.conf</code> inside it, make it readable only by you, and add the credentials to it:</p>
+<pre><code>$ cd
+$ mkdir .snmp
+$ chmod 700 .snmp/
+$ editor .snmp/snmp.conf
+</code></pre>
+<p>Put the following contents in the file:</p>
+<pre><code>defVersion 3
+defSecurityLevel authNoPriv
+defSecurityName admin
+defAuthPassphrase NetManage
+defAuthType SHA
+defPrivType AES
+
+# Default community when using SNMP v2c
+defCommunity NetManage
+</code></pre>
+<p>Creating this configuration file means you won’t have to enter your credentials everytime you use one of the SNMP utilities. Otherwise you would have to add all these values on the command line like this:</p>
+<p>(this command will not yet work)</p>
+<pre><code>snmpstatus -v3 -l authNoPriv -a SHA -u admin -A NetManage srvX.lab.shakya.io
+</code></pre>
+<h1 id="configure-snmp-on-your-campus-routers">Configure SNMP on Your Campus Routers</h1>
+<p>For this exercise you need to work together as a group. You will be enabling and configuring snmp to run on each of your network devices. This includes:</p>
+<pre><code>* rtr1-gY.lab.shakya.io
+</code></pre>
+<p>The commands to enable ssh are the same on each box, so divide the work between your group members.</p>
+<p>Now connect to your network devices and on each do:</p>
+<pre><code>$ ssh rtr1-gY.lab.npnog.org.np
+
+username: lab
+password: &lt;CLASS PASSWORD&gt;
+
+rtr1-gY&gt; enable
+Password: &lt;CLASS PASSWORD&gt;
+rtr1-gY# configure terminal          (conf t)
+</code></pre>
+<p>Now we need to add an Access Control List rule for SNMP access, turn on SNMP, assign a read-only SNMP community string as well as a SNMPv3 group and user and tell the router to maintain SNMP information across reboots. To do this we do:</p>
+<p>(Note that “Y” is equal to your campus number)</p>
+<pre><code>rtr1-gY(config)# snmp-server community NetManage ro 99
+rtr1-gY(config)# snmp-server group ReadGroup v3 auth access 99
+rtr1-gY(config)# access-list 99 permit 36.0.4.0 0.0.0.255
+rtr1-gY(config)# snmp-server user admin ReadGroup v3 auth sha NetManage
+rtr1-gY(config)# snmp-server ifindex persist
+</code></pre>
+<p>Now let’s exit and save this new configuration to the routers permanent config.</p>
+<pre><code>rtr1-gY(config)# exit
+rtr1-gY# write memory                    (wr mem)
+rtr1-gY# exit                            (until you return to your pc)
+</code></pre>
+<p>If you have questions about what the access-list statement is restricting ask your instructors.</p>
+<h1 id="testing-snmp">Testing SNMP</h1>
+<p>To check that your SNMP installation works, run the snmpstatus command on each of the following devices from your host:</p>
+<pre><code>$ snmpstatus &lt;IP_ADDRESS&gt;
+</code></pre>
+<p>Where is each of the following:</p>
+<pre><code>* Group border router:             36.0.4.Y
+</code></pre>
+<p>Note that you just used SNMPv3. Not all devices that implement SNMP support v3. Try again, adding “-v2c” as a parameter. Notice that the command automatically uses the community string in the snmp.conf file instead of the v3 user credentials. Try “-v1”. That is try:</p>
+<pre><code>$ snmpstatus -v2c &lt;IP_ADDRESS&gt;
+</code></pre>
+<p>and</p>
+<pre><code>$ snmpstatus -v1 &lt;IP_ADDRESS&gt;
+</code></pre>
+<p>What happens if you try using the wrong community string (i.e. change <code>NetManage</code> to something else) using the options “-v2c -c NetWrong”?</p>
+<pre><code>$ snmpstatus -v2c -c NetWrong &lt;IP_ADDRESS&gt;
+</code></pre>
+<h1 id="snmp-walk-and-oids">SNMP Walk and OIDs</h1>
+<p>Now, you are going to use the <code>snmpwalk</code> command, part of the SNMP toolkit, to list the tables associated with the OIDs listed below, on each piece of equipment you tried above:</p>
+<pre><code>.1.3.6.1.2.1.2.2.1.2
+.1.3.6.1.2.1.31.1.1.1.18
+.1.3.6.1.4.1.9.9.92.1
+.1.3.6.1.2.1.25.2.3.1
+.1.3.6.1.2.1.25.4.2.1
+</code></pre>
+<p>You will try this with two forms of the <code>snmpwalk</code> command:</p>
+<pre><code>$ snmpwalk &lt;IP_ADDRESS&gt; &lt;OID&gt;
+</code></pre>
+<p>and</p>
+<pre><code>$ snmpwalk -On &lt;IP_ADDRESS&gt; &lt;OID&gt;
+</code></pre>
+<p>… where <code>OID</code> is one of the OIDs listed above: .1.3.6…</p>
+<p>…where <code>IP_ADDRESS</code> can be your group’s router…</p>
+<p><strong>Note</strong>: the <code>-On</code> option turns on numerical output, i.e.: no translation of the OID &lt;-&gt; MIB object takes place.</p>
+<p>For these OIDs:</p>
+<ol>
+<li>Do all the devices answer?</li>
+<li>Do you notice anything important about the OID on the output?</li>
+</ol>
+<h1 id="configuration-of-snmpd-serveragent-on-your-host-srvxlabshakyaio">Configuration of snmpd (server/agent) on your host (srvX.lab.shakya.io)</h1>
+<p>For this exercise your group needs to verify that the snmpd service is running and responding to queries for all machines in your group. First enable snmpd on your machine, then test if your machine is responding, then check each machine of your other group members.</p>
+<ul>
+<li>
+<p>Install the SNMP agent (daemon) on your host</p>
+<p>$ sudo apt install snmpd
+$ sudo apt install libsnmp-dev</p>
+</li>
+<li>
+<p>Configuration</p>
+</li>
+</ul>
+<p>We will make a backup of the distributed config, and then we will create our own (be sure you mv “snmpd.conf” and <em>not</em> “snmp.conf”):</p>
+<pre><code>$ cd /etc/snmp
+$ sudo mv snmpd.conf snmpd.conf.dist
+$ sudo editor snmpd.conf
+</code></pre>
+<p>Then, copy/paste the following:</p>
+<pre><code>#  Listen for connections on all interfaces (both IPv4 *and* IPv6)
+agentAddress udp:161,udp6:161
+
+# For SNMPv2: Configure Read-Only community and restrict who can connect
+rocommunity NetManage 36.0.4.0/22
+rocommunity NetManage 127.0.0.1
+rocommunity6 NetManage ::1
+
+# Information about this host
+sysLocation    NSRC Network Management Workshop
+sysContact     [email protected]
+
+# Which OSI layers are active in this host
+# (Application + End-to-End layers)
+sysServices    72
+
+# Include proprietary dskTable MIB (in addition to hrStorageTable)
+includeAllDisks  10%
+</code></pre>
+<p>Now save and exit from the editor.</p>
+<p>Now we will add the same SNMPv3 user to your PC. We need to stop snmpd before adding the user, and restart it to read the above changes as well as the new user:</p>
+<pre><code>$ sudo systemctl stop snmpd
+$ sudo net-snmp-create-v3-user -ro -A NetManage -a SHA -x AES admin
+$ sudo systemctl start snmpd
+</code></pre>
+<p>Check that there are no errors in the config file:</p>
+<pre><code>$ sudo journalctl -eu snmpd
+</code></pre>
+<h2 id="check-that-snmpd-is-working">Check that snmpd is working:</h2>
+<p>Make an SNMP query to the agent which should now be running on your own host.</p>
+<pre><code>$ snmpstatus localhost
+</code></pre>
+<p>What do you observe? If you see an error or get no response, ask for help.</p>
+<h2 id="test-your-neighbors">Test your neighbors</h2>
+<p>Check now that you can run snmpstatus against your other group members host.</p>
+<pre><code>$ snmpstatus srv[1..4].lab.shakya.io
+</code></pre>
+<p>For instance, in group 1, you should verify against:</p>
+<pre><code>* srv1.lab.shakya.io
+* srv2.lab.shakya.io
+* srv3.lab.shakya.io
+* srv4.lab.shakya.io
+</code></pre>
+<p>and, so on.</p>
+<h1 id="configuration-of-snmpd-on-your-srvxlabshakyaio-server">Configuration of snmpd on your srvX.lab.shakya.io server</h1>
+<p>Be sure that you install the snmp daemon (agent) on your server at this time. Select someone from your group to do this. Otherwise, it will be configured later as well.</p>
+<p>At a minimum you need to complete sections 3 and 7 to 7.1.</p>
+
+</body>
+</html>
