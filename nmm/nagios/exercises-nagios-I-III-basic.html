@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>exercises-nagios-I-III-basic.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="lab---nagios">LAB: - Nagios</h1>
+<p>Please follow the lab guide to login to the VM.</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li>Commands preceded with $imply that you should execute the command as a general user - not as root.</li>
+<li>Commands preceded with #imply that you should be working as root.</li>
+<li>If a command line ends with \this indicates that the command continues on the next line and youshould treat this as a single line.</li>
+</ul>
+<h2 id="1-install-required-packages">1. Install Required Packages</h2>
+<p>Update the package index for the APT package manager and install necessary packages:</p>
+<pre class="hljs"><code><div>$ sudo apt-get update
+$ sudo apt-get install -y autoconf gcc libc6 make wget unzip apache2 php \
+libapache2-mod-php7.2 libgd-dev libmcrypt-dev libssl-dev bc \
+gawk dc build-essential snmp libnet-snmp-perl gettext
+</div></code></pre>
+<h2 id="2-downloading-the-source">2. Downloading the source</h2>
+<p>With the prerequisites installed, we can install Nagios itself. Download the source code for the latest stablerelease of Nagios Core.</p>
+<pre class="hljs"><code><div>$ cd /tmp
+$ wget -O nagioscore.tar.gz
+https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
+$ tar xzf nagioscore.tar.gz
+</div></code></pre>
+<h2 id="3-compile-source-and-install-nagios">3. Compile source and install Nagios</h2>
+<p>Before building Nagios, run the configure script and specify the Apache configs directory:</p>
+<pre class="hljs"><code><div>$ cd /tmp/nagioscore-nagios-4.4.5/
+$ sudo ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+</div></code></pre>
+<p>We will see the following output from the configure command:</p>
+<pre class="hljs"><code><div>*** Configuration summary for nagios 4.4.5 2019-08-20 ***:
+General Options:
+-------------------------
+Nagios executable: nagios
+Nagios user/group: nagios,nagios
+Command user/group: nagios,nagios
+Event Broker: yes
+Install ${prefix}: /usr/local/nagios
+Install ${includedir}: /usr/local/nagios/include/nagios
+Lock file: /run/nagios.lock
+Check result directory: /usr/local/nagios/var/spool/checkresults
+Init directory: /lib/systemd/system
+Apache conf.d directory: /etc/apache2/sites-enabled
+Mail program: /usr/sbin/sendmail
+Host OS: linux-gnu
+IOBroker Method: epoll
+Web Interface Options:
+------------------------
+HTML URL: http://localhost/nagios/
+CGI URL: http://localhost/nagios/cgi-bin/
+Traceroute (used by WAP): /usr/bin/traceroute
+Review the options above for accuracy. If they look okay,
+type 'make all' to compile the main program and CGIs.
+</div></code></pre>
+<p>Now compile Nagios with this command:</p>
+<pre class="hljs"><code><div>$ sudo make all
+</div></code></pre>
+<p>Next create a nagios user and nagios group. They will be used to run the Nagios process:</p>
+<pre class="hljs"><code><div>$ sudo make install-groups-users
+$ sudo usermod -a -G nagios www-data
+</div></code></pre>
+<p>Now run these make commands to install Nagios binary files, service files, and its sample configuration files:</p>
+<pre class="hljs"><code><div>$ sudo make install
+$ sudo make install-daemoninit
+$ sudo make install-commandmode
+$ sudo make install-config
+</div></code></pre>
+<p>We will use Apache to serve Nagios’ web interface, so run the following to install the Apache configurationfiles and configure its settings:</p>
+<pre class="hljs"><code><div>$ sudo make install-webconf
+</div></code></pre>
+<p>Enable the Apache rewrite and cgi modules with the a2enmod command:</p>
+<pre class="hljs"><code><div>$ sudo a2enmod rewrite
+$ sudo a2enmod cgi
+</div></code></pre>
+<p>Now need to create an Apache user account to be able to log into Nagios.
+The following command will create a user account called <em><em>nagiosadmin</em></em> and will be prompted to provide a password for the account.</p>
+<pre class="hljs"><code><div>$ sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users _*nagiosadmin*_
+</div></code></pre>
+<p>Please enter <em><em>innog6</em></em> as password at the prompt. Remember this password, as we will need it to access the Nagios web interface.</p>
+<p>Restart Apache to load the new Apache configuration:</p>
+<pre class="hljs"><code><div>$ sudo systemctl restart apache2
+</div></code></pre>
+<p>Nagios is now running, to confirm this you need to log into the Nagios Web Interface. Point the web browserto the ip address or FQDN of your Nagios Core server, for example:</p>
+<pre class="hljs"><code><div>http://srvX.lab.shakya.io/nagios
+</div></code></pre>
+<p>Will be prompted for a username and password. The username is <em><em>nagiosadmin</em></em> and the password is_<em>innog6</em>_</p>
+<p>We have only installed the Nagios Core engine. But for this to work, it is necessary to install the NagiosPlugins, which you’ll cover in the next step.</p>
+<h2 id="4-installing-the-nagios-plugins">4. Installing the Nagios Plugins</h2>
+<p>Nagios needs plugins to operate properly. The official Nagios Plugins package contains over 50 plugins thatallow you to monitor basic services such as uptime, disk usage, swap usage, NTP, and others.</p>
+<p>Download and extract the archive</p>
+<pre class="hljs"><code><div>$ cd /tmp
+$ wget --no-check-certificate -O nagios-plugins.tar.gz \
+https://github.com/nagios-plugins/nagios-plugins/\
+/releases/download/release-2.4.0/nagios-plugins-2.4.0.tar.gz
+</div></code></pre>
+<p>Compile and install:</p>
+<pre class="hljs"><code><div>$ tar zxfv nagios-plugins.tar.gz
+$ cd /tmp/nagios-plugins-release-2.4.0/
+$ sudo ./configure
+$ sudo make
+$ sudo make install
+</div></code></pre>
+<p>Now start nagios service</p>
+<pre class="hljs"><code><div>$ sudo systemctl restart nagios
+</div></code></pre>
+<p>Point your web browser to the ip address or FQDN of your Nagios Core server, for example:</p>
+<pre class="hljs"><code><div>http://srvX.lab.shakya.io/nagios
+</div></code></pre>
+<p>Go to a host and check the status of localhost.</p>
+<h2 id="5-configuring-nagios">5. Configuring Nagios</h2>
+<p>Now let’s perform the initial Nagios configuration, which involves editing some configuration files.</p>
+<p>Open the main Nagios configuration file and find the line #cfg_dir=/usr/local/nagios/etc/servers</p>
+<pre class="hljs"><code><div>$ sudo vi /usr/local/nagios/etc/nagios.cfg
+</div></code></pre>
+<p>Uncomment this line by deleting the # character from the front of the line:</p>
+<pre class="hljs"><code><div>cfg_dir=/usr/local/nagios/etc/servers
+</div></code></pre>
+<p>also uncomment the line <code>#cfg_dir=/usr/local/nagios/etc/routers</code></p>
+<p>Now create the directory that will store the configuration file for each server that you will monitor:</p>
+<pre class="hljs"><code><div>$ sudo mkdir /usr/local/nagios/etc/servers
+$ sudo mkdir /usr/local/nagios/etc/routers
+6. Monitoring Hosts with Nagios
+</div></code></pre>
+<p>To monitor any hosts with Nagios, we will add configuration files for each host specifying what we want tomonitor.</p>
+<p>On the Nagios server, create a new configuration file for each of the remote hosts that we want to monitor in <code>/usr/local/nagios/etc/routers/</code>. The following example is to monitor <code>gw-rtr.lab.shakya.io</code></p>
+<pre class="hljs"><code><div>$ sudo vi /usr/local/nagios/etc/routers/gw-rtr.cfg
+</div></code></pre>
+<p>Add the following host definition:</p>
+<pre class="hljs"><code><div>define host {
+        use                     generic-host
+        host_name               gw-rtr
+        alias                   gw-rtr
+        address                 gw-rtr.lab.shakya.io
+        check_command           check-host-alive
+        max_check_attempts      5
+        check_period            24x7
+        notification_interval   30
+        notification_period     24x7
+}
+</div></code></pre>
+<p>Restart the Nagios service to put any changes into effect:</p>
+<pre class="hljs"><code><div>$ sudo systemctl restart nagios
+</div></code></pre>
+<p>After several minutes, Nagios will check the new hosts.</p>
+<p>Lets add few more nodes and start monitoring them.</p>
+<p>Following configuration is for your group router <code>rtr1-gY</code>. Replace <code>Y</code> with group number:</p>
+<pre class="hljs"><code><div>$ sudo vi /usr/local/nagios/etc/routers/rtr1-gY.cfg
+
+define host {
+        use                      generic-host
+        host_name                rtr1-gY
+        alias                    rtr1-gY
+        address                  rtr1-gY.lab.shakya.io
+        check_command            check-host-alive
+        max_check_attempts       5
+        check_period             24x7
+        notification_interval    30
+        notification_period      24x7
+        }
+</div></code></pre>
+<p>Restart the Nagios service to put any changes into effect:</p>
+<pre class="hljs"><code><div>$ sudo systemctl restart nagios
+</div></code></pre>
+<p>Go to Nagios web interface and validate.</p>
+<h2 id="7-monitoring-services-with-nagios">7. Monitoring Services with Nagios</h2>
+<p>In previous step we have configured Nagios to monitor the uptime. Nagios will only tell if the host is up ordown. Let’s add some services to monitor.</p>
+<p>Following configuration is to monitor <code>srvX.lab.shakya.io</code> HTTP service:</p>
+<pre class="hljs"><code><div>$ sudo vi /usr/local/nagios/etc/servers/srvX.cfg
+</div></code></pre>
+<p>Add the following host definition:</p>
+<pre class="hljs"><code><div>define host {
+        use                       generic-host
+        host_name                 srvX
+        alias                     srvX
+        address                   srvX.lab.shakya.io
+        check_command             check-host-alive
+        max_check_attempts        5
+        check_period              24x7
+        notification_interval     30
+        notification_period       24x7
+}
+
+define service {
+        use                       generic-service
+        host_name                 srvX
+        service_description       HTTP
+        check_command             check_http
+}
+</div></code></pre>
+<p>The use <code>generic-service</code> directive tells Nagios to inherit the values of a service template called <code>generic-service</code>, which is predefined by Nagios.</p>
+<p>Restart the Nagios service to put any changes into effect:</p>
+<pre class="hljs"><code><div>$ sudo systemctl restart nagios
+</div></code></pre>
+<p>From Nagios web interface go to <code>Services</code> tab and verify.</p>
+<p>We can add other hosts (servers and routers) and start monitoring them.</p>
+<h2 id="8-adding-parent-relationships">8. Adding Parent Relationships</h2>
+<p>The keyword <code>parents</code> define the parent-child relationship between nodes. For example as per our lab topology below is the connectivity diagram:</p>
+<pre class="hljs"><code><div>srvX -&gt; rtr1-gY -&gt; gw-rtr
+</div></code></pre>
+<p>Where <code>gw-rtr</code> is parent of <code>rtr1-gY</code> and <code>rtr1-gY</code> is parent of <code>srvX</code></p>
+<p>We can update our nodes configuration accordingly.</p>
+<p><code>rtr1-gY.cfg</code> [replace Y with group number]:</p>
+<pre class="hljs"><code><div>define host {
+        use                       generic-host
+        host_name                 rtr1-gY
+        alias                     rtr1-gY
+        address                   rtr1-gY.lab.shakya.io
+        check_command             check-host-alive
+        max_check_attempts        5
+        check_period              24x7
+        notification_interval     30
+        notification_period       24x7
+        parents                   gw-rtr
+}
+</div></code></pre>
+<p><code>srvX.cfg</code> [replace X with group number]:</p>
+<pre class="hljs"><code><div>define host {
+        use                       generic-host
+        host_name                 srvX
+        alias                     srvX
+        address                   srvX.lab.shakya.io
+        check_command             check-host-alive
+        max_check_attempts        5
+        check_period              24x7
+        notification_interval     30
+        notification_period       24x7
+        parents                   rtr1-gY
+}
+</div></code></pre>
+<p>Restart the Nagios service to put any changes into effect:</p>
+<pre class="hljs"><code><div>$ sudo systemctl restart nagios
+</div></code></pre>
+<p>Please confirm nagioshas been loaded properly.</p>
+<pre class="hljs"><code><div>$ sudo systemctl status nagios
+</div></code></pre>
+<p>If nagiosservice is broken please check /usr/local/nagios/var/nagios.logfor more details.</p>
+<p>From Nagios web interface go to Maptab and verify.</p>
+<p>Clean up after our installs</p>
+<pre class="hljs"><code><div>$ cd /tmp
+$ sudo rm -rf *
+</div></code></pre>
+<p><em>End of Lab</em></p>
+
+</body>
+</html>
