@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>node_exporter.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="prometheus-node-exporter-install">Prometheus Node Exporter Install</h1>
+<h2 id="1-introduction">1 Introduction</h2>
+<p>To collect metrics from Linux services, such as memory/CPU/disk utilisation, you install the node_exporter on each server. This is much easier to configure and manage than SNMP.</p>
+<p>Do this on your campus server instance (srvX.lab.shakya.io)</p>
+<h2 id="2-install-or-upgrade-nodeexporter">2. Install (or upgrade) node_exporter</h2>
+<p><strong>NOTE:</strong></p>
+<pre class="hljs"><code><div>If node_exporter is pre-installed and you are not upgrading, skip to the next section “Start node exporter”
+</div></code></pre>
+<p>We are assuming you are doing these exercises as the <code>root</code> user or using the <code>sudo</code> command as needed.</p>
+<p>Fetch and unpack the latest release from the releases page <a href="https://github.com/prometheus/node_exporter/releases/">https://github.com/prometheus/node_exporter/releases/</a> and create a symlink so that <code>/opt/node_exporter</code> refers to the current version. You should go here first and then replace the “XX” and the “Y” below in the link with the current version number that is listed on the releases page (scroll down a bit to find the link).</p>
+<pre class="hljs"><code><div>    # cd /root`
+    # wget https://github.com/prometheus/node_exporter/releases/download/vX.Y.Z/node_exporter-X.Y.Z.linux-amd64.tar.gz
+    # tar -C /opt -xvzf node_exporter-X.Y.Z.linux-amd64.tar.gz
+</div></code></pre>
+<p>If node exporter was already installed, then remove the logical link first:</p>
+<pre class="hljs"><code><div>    # cd /opt
+    # rm node_exporter
+</div></code></pre>
+<p>And, now create the logical link to the current node_exporter version:</p>
+<pre class="hljs"><code><div>    # ln -s node_exporter-X.Y.Z.linux-amd64 /opt/node_exporter
+</div></code></pre>
+<p>The logical link allows us to create systemd unit file without needing to update it each time we upgrade node_exporter.</p>
+<h3 id="stop-here-if-you-are-upgrading-and-go-to-the-start-nodeexporter-section"><strong>Stop here if you are upgrading and go to the Start node_exporter section</strong></h3>
+<p>Use a text editor to create a systemd unit file <code>/etc/systemd/system/node_exporter.service</code> with the following contents:</p>
+<pre class="hljs"><code><div>    [Unit]
+    Description=Prometheus Node Exporter
+    Documentation=https://github.com/prometheus/node_exporter
+    After=network-online.target
+    
+    [Service]
+    User=root
+    EnvironmentFile=/etc/default/node_exporter
+    ExecStart=/opt/node_exporter/node_exporter $OPTIONS
+    Restart=on-failure
+    RestartSec=5
+    
+    [Install]
+    WantedBy=multi-user.target
+</div></code></pre>
+<p>Tell systemd to read this new file:</p>
+<pre class="hljs"><code><div>    # systemctl daemon-reload
+</div></code></pre>
+<p>Also create an options file <code>/etc/default/node_exporter</code> with the following contents:</p>
+<pre class="hljs"><code><div>    OPTIONS=''
+</div></code></pre>
+<h2 id="3-start-nodeexporter">3 Start node_exporter</h2>
+<p>Let’s start node_exporter:</p>
+<pre class="hljs"><code><div>    # systemctl enable node_exporter  # start on future boots
+    # systemctl restart node_exporter # restart now (works for upgrade and new)
+    # journalctl -eu node_exporter    # check for &quot;Listening on :9100&quot;
+</div></code></pre>
+<p>Use cursor keys to move around the journalctl log output, and “q” to quit. If there are any errors, then go back and fix them.</p>
+<p>In the future you can type:</p>
+<pre class="hljs"><code><div>    # systemctl status node_exporter   # check for &quot;Active: active (running)&quot; text
+</div></code></pre>
+<h2 id="31-manual-scrape">3.1. Manual scrape</h2>
+<p>The exporter is now running and listening on port 9100. Test it by doing a manual scrape:</p>
+<pre class="hljs"><code><div>    # curl localhost:9100/metrics
+</div></code></pre>
+<p>You can filter the output to look at just a subset of metrics, like this:</p>
+<pre class="hljs"><code><div>    # curl -s localhost:9100/metrics | grep filesystem
+</div></code></pre>
+<p>(<code>-s</code> = “silent”, stops curl showing the progress information)</p>
+<h2 id="4-configure-prometheus-scraping">4. Configure prometheus scraping</h2>
+<p>Now we will configure prometheus to scrape this host. As we want to be able to scrape many hosts, we’ll put the list of targets to scrape in a separate file to make it easier to manage.</p>
+<p>Create a new directory:</p>
+<pre class="hljs"><code><div>    mkdir /etc/prometheus/targets.d
+</div></code></pre>
+<p>Create a new file <code>/etc/prometheus/targets.d/node.yml</code> with the following contents:</p>
+<pre class="hljs"><code><div>    - targets:
+        - 'srvX.lab.shakya.io:9100'
+</div></code></pre>
+<p>Edit <code>/etc/prometheus/prometheus.yml</code>. Under the <code>scrape_configs</code> section add a new job called “node”, so it looks like this:</p>
+<pre class="hljs"><code><div>    scrape_configs:
+      # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.
+      - job_name: 'prometheus'
+    
+        # metrics_path defaults to '/metrics'
+        # scheme defaults to 'http'.
+    
+        metrics_path: '/prometheus/metrics'
+    
+        static_configs:
+        - targets: ['localhost:9090']
+    
+      - job_name: 'node'
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/targets.d/node.yml
+</div></code></pre>
+<p>Be careful with spacing. In particular, the hyphens before each <code>job_name:</code> must be in exactly the same column, so they line up vertically.</p>
+<p>Now tell prometheus that you have changed its configuration:</p>
+<pre class="hljs"><code><div>    killall -HUP prometheus
+    journalctl -eu prometheus
+</div></code></pre>
+<p>CHECK THE LOGS YOU SEE. Use cursor keys to scroll if necessary. You should see:</p>
+<pre class="hljs"><code><div>    msg=&quot;Completed loading of configuration file&quot; filename=/etc/prometheus/prometheus.yml
+</div></code></pre>
+<p>If you don’t, then find your error and correct it. In the mean time, prometheus will continue running with your old configuration. You may get a more helpful description of the error by running:</p>
+<pre class="hljs"><code><div>    /opt/prometheus/promtool check config /etc/prometheus/prometheus.yml
+</div></code></pre>
+<blockquote>
+<p>REMEMBER: don’t restart prometheus after changing its configuration. If you do, it will force prometheus to re-read all its Write-Ahead Logs (WAL) which in a large running installation can take many minutes. And if you have an error in your configuration, prometheus won’t start at all until you fix it.</p>
+</blockquote>
+<h2 id="41-examine-in-web-interface">4.1. Examine in web interface</h2>
+<p>Return to the prometheus web interface at <a href="http://srvX.lab.shakya.io:9090">http://srvX.lab.shakya.io:9090</a></p>
+<p>In the query box (click on “Graph” option at the top of the page) start typing “node” and you’ll get a list of matching metrics.</p>
+<p>Select “node_filesystem_avail_bytes” as an example of a <em>gauge</em>. Look at the current values, and look at the graph. The lines may look very flat, but as you move the mouse along them, you may see the values changing slightly.</p>
+<p>Now change your query to select a single timeseries, by changing the query to:</p>
+<pre class="hljs"><code><div>    node_filesystem_avail_bytes{mountpoint=&quot;/&quot;}
+</div></code></pre>
+<p>This may give a clearer picture of the free disk space reducing over time.</p>
+<p>Finally: there is a metric called “up” which shows the success or failure of scrape jobs. Enter “up” in the query, select Execute and change to Console view (Table in the new UI). You should see something like this:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>up{instance=&quot;localhost:9090&quot;,job=&quot;prometheus&quot;}</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>up{instance=&quot;srvX.lab.shakya.io:9100&quot;,job=&quot;node&quot;}</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>This means you are scraping two targets, and they both responded successfully to the scrape.</p>
+<p>More information about the health of scraping, including any scrape errors, can be seen by using the <code>Status &gt; Targets</code> menu option.</p>
+<h2 id="5-converting-counters-to-rates">5. Converting Counters to Rates</h2>
+<p>Run the following query in the prometheus web UI:</p>
+<pre class="hljs"><code><div>    node_network_transmit_bytes_total
+</div></code></pre>
+<p>Look at it in the Console, and in the Graph. These are counter values which are increasing. But for network traffic, what you’re actually interested in is the <em>rate</em> in bytes per second or bits per second, not the raw counter values.</p>
+<p>Prometheus has built-in functions which can convert counters into rates. Modify your query as follows, and look at the Graph again:</p>
+<pre class="hljs"><code><div>    rate(node_network_transmit_bytes_total[2m])
+</div></code></pre>
+<p>What do you see now?</p>
+<p>How this query works:</p>
+<ul>
+<li><code>node_network_transmit_bytes_total[2m]</code> covers a <em>range</em> of data points collected over the last 2 minutes</li>
+<li><code>rate(...)</code> takes the <em>first</em> and <em>last</em> data point in that range, and calculates the average rate over that period.</li>
+</ul>
+<p>Given that we are sampling at 15 second intervals, the first and last data points will be 1 minute and 45 seconds apart, so this gives a “smoothed” rate averaged over that period.</p>
+<p>Now change “rate” to “irate”, so that the query looks like this:</p>
+<pre class="hljs"><code><div>    irate(node_network_transmit_bytes_total[2m])
+</div></code></pre>
+<p>Again, this covers a <em>range</em> of data points over 2 minutes. But irate takes the <em>last two</em> data points in that period, giving an “instantaneous” rate - this will be more spiky as it reacts very quickly to changes.</p>
+<p>Which you use depends on the context. <code>irate</code> gives you a more accurate representation of the rate at the highest resolution possible; but for alerting purposes the smoothed value may subject you to fewer false alarms.</p>
+<p>Finally, note that these graphs are in Bytes per Second. Normally for network traffic you want Bits per Second. This is easy to fix: just scale up the output by a factor of 8.</p>
+<pre><code>irate(node_network_transmit_bytes_total[2m]) * 8
+</code></pre>
+<h2 id="6-monitor-other-hosts">6. Monitor other hosts</h2>
+<p>Now update your configuration to monitor the other servers in the class. All you need to do is edit <code>/etc/prometheus/targets.d/node.yml</code> so that it looks like this:</p>
+<pre class="hljs"><code><div>    - targets:
+        - 'srv1.lab.shakya.io:9100'
+        - 'srv2.lab.shakya.io:9100'
+        - 'srv3.lab.shakya.io:9100'
+        - 'srv4.lab.shakya.io:9100'
+        - 'srv5.lab.shakya.io:9100'
+        - 'srv6.lab.shakya.io:9100'
+</div></code></pre>
+<p>Save the changes to this file. Note that for this change <em>you do not need to HUP prometheus</em>! Prometheus is constantly monitoring the targets file and will pick up changes by itself.</p>
+<p>Return to the web interface. Of course, you may have gotten here before the other campuses have got their node exporters working. How can you tell which ones you are successfully scraping?</p>
+<p>Easy: execute a query on “up” and see which targets are up (1) or down (0).</p>
+<p>Try shutting down your own node_exporter:</p>
+<pre class="hljs"><code><div>    systemctl stop node_exporter
+    # wait 30 seconds
+    systemctl start node_exporter
+</div></code></pre>
+<p>Now run the query “up” again. Using the Graph view, you should be able to see the history of when your node went down, and came back up again.</p>
+<p>At this point, you may find queries are returning more results than are useful. For example, try “node_filesystem_avail_bytes” and you’ll see all the filesystems across all the hosts. As your network gets bigger, such queries become very slow.</p>
+<p>So you should start getting into the habit of filtering your queries to limit the number of timeseries returned. Try the following:</p>
+<pre class="hljs"><code><div>    node_filesystem_avail_bytes{instance=&quot;srv1.lab.shakya.io:9100&quot;}
+</div></code></pre>
+<p>You can also use regular expression pattern matches against labels. Try this:</p>
+<pre class="hljs"><code><div>    node_filesystem_avail_bytes{instance=~&quot;.*campus1.*&quot;}
+</div></code></pre>
+<p>This gets tedious, but once you have developed a useful query, you would normally create it as a permanent dashboard in a tool like grafana - that will be a later exercise.</p>
+<p>If you have spare time: deploy node_exporter to the other hosts in your own campus (host1-host6.campusX.lab.shakya.io) and scrape them from your prometheus server.</p>
+<h2 id="7-notes">7. Notes</h2>
+<p>In real life, to install node_exporter across many servers, you could put all the components into a tarball, or use a configuration management tool such as ansible.</p>
+<p>On Windows targets, you would install the <a href="https://github.com/martinlindhe/wmi_exporter">wmi_exporter</a> rather than node_exporter. It runs on a different port (9182), so you would create a separate scrape job for all your Windows machines, with its own targets file.</p>
+
+</body>
+</html>
