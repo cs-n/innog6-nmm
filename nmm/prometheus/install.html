@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>install.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="prometheus-install">Prometheus Install</h1>
+<h2 id="configuring-prometheus-data-store-and-central-server">Configuring Prometheus Data Store and Central Server</h2>
+<h3 id="introduction">Introduction</h3>
+<p>Prometheus provides a data collection engine, a time series storage engine, and a basic web interface for querying. In this exercise we’ll install Prometheus.</p>
+<p>Do this on your server instance (srvX.lab.shakya.io)</p>
+<h2 id="1-install-or-upgrade-prometheus">1. Install (or upgrade) prometheus</h2>
+<p><strong>Note:</strong> <code>If prometheus is pre-installed and you are not upgrading, skip to the next section “Start prometheus”</code></p>
+<p>All the prometheus components are available as pre-built binaries.</p>
+<p>Fetch and unpack the latest release from the <a href="https://github.com/prometheus/prometheus/releases/">releases page</a>. You should go here first and then replace the “XX” and the “Y” below in the link with the current Prometheus version number that is listed on the releases page (scroll down a bit to find the link).</p>
+<p>You should do these exercises as the <code>root</code> user on your srvX.lab.shakya.io. Start by connecting to your box, then:</p>
+<pre class="hljs"><code><div>    $ sudo -s
+    # cd /root
+</div></code></pre>
+<p>Then do,</p>
+<pre class="hljs"><code><div>    # wget https://github.com/prometheus/prometheus/releases/download/v2.XX.Y/prometheus-2.XX.Y.linux-amd64.tar.gz
+    # tar -C /opt -xvzf prometheus-2.XX.Y.linux-amd64.tar.gz
+    # cd /opt
+</div></code></pre>
+<p>This may take a few minutes depending on your network speed.</p>
+<p>Create a symbolic link from <code>/opt/prometheus</code> pointing to the version you downloaded (this makes it easier to upgrade and switch between versions). Remeber to replace “XX” and “Y” with the version of prometheus you have downloaded.</p>
+<p>If the <code>prometheus</code> link already exists and you are upgrading remove it first:</p>
+<pre class="hljs"><code><div>    # rm prometheus
+</div></code></pre>
+<p>Then,</p>
+<pre class="hljs"><code><div>    # ln -s prometheus-2.XX.Y.linux-amd64 /opt/prometheus
+</div></code></pre>
+<p>The logical link allows us to create systemd unit file without needing to update it each time we upgrade Prometheus.</p>
+<h3 id="stop-here-if-you-are-upgrading-and-go-to-the-start-prometheus-section"><strong>Stop here if you are upgrading and go to the Start prometheus section</strong></h3>
+<p>If you are installing Prometheus for the first time, then create a user for prometheus to run as, and a data directory:</p>
+<pre class="hljs"><code><div>    # useradd --system -d /var/lib/prometheus prometheus
+    # mkdir /var/lib/prometheus
+    # chown prometheus:prometheus /var/lib/prometheus
+</div></code></pre>
+<p>Use a text editor to create a systemd unit file <code>/etc/systemd/system/prometheus.service</code> with the following contents:</p>
+<pre class="hljs"><code><div>    [Unit]
+    Description=Prometheus Server
+    Documentation=https://prometheus.io/docs/introduction/overview/
+    After=network-online.target
+    
+    [Service]
+    User=prometheus
+    Restart=on-failure
+    RestartSec=5
+    TimeoutStopSec=300
+    WorkingDirectory=/opt/prometheus
+    EnvironmentFile=/etc/default/prometheus
+    ExecStart=/opt/prometheus/prometheus $OPTIONS
+    ExecReload=/bin/kill -HUP $MAINPID
+    
+    [Install]
+    WantedBy=multi-user.target
+</div></code></pre>
+<p>Tell systemd to read this new file:</p>
+<pre class="hljs"><code><div>    # systemctl daemon-reload
+</div></code></pre>
+<p>Also create an options file <code>/etc/default/prometheus</code> with the following contents:</p>
+<pre class="hljs"><code><div>    OPTIONS='--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/var/lib/prometheus/data/ --storage.tsdb.wal-compression
+</div></code></pre>
+<p>Create the initial default configuration:</p>
+<pre class="hljs"><code><div>    # mkdir /etc/prometheus
+    # cp /opt/prometheus/prometheus.yml /etc/prometheus/
+</div></code></pre>
+<p>Edit <code>/etc/prometheus/prometheus.yml</code> and under <code>job_name: 'prometheus'</code> add:</p>
+<pre class="hljs"><code><div>        metrics_path: '/metrics'
+</div></code></pre>
+<h2 id="2-start-prometheus">2. Start prometheus</h2>
+<p>Let’s start prometheus:</p>
+<pre class="hljs"><code><div>    # systemctl enable prometheus   # start on future boots
+    # systemctl start prometheus    # start now
+    # journalctl -eu prometheus     # check for &quot;Server is ready to receive web requests.&quot;
+</div></code></pre>
+<p>Use cursor keys to move around the journalctl log output, and “q” to quit. If there are any errors, then go back and fix them.</p>
+<p>In the future you can type:</p>
+<pre class="hljs"><code><div>    # systemctl status prometheus   # check for &quot;Active: active (running)&quot; text
+</div></code></pre>
+<h2 id="3-the-default-configuration">3. The default configuration</h2>
+<p>Have a look at the default configuration file:</p>
+<pre class="hljs"><code><div>    # cat /etc/prometheus/prometheus.yml
+</div></code></pre>
+<p>Note that the scrape interval is currently set to 15 seconds. This gives us rapid results, but in the real world, 1 minute is probably a safer starting point. (We’ll see how well the class runs with a 15 second scrape interval!)</p>
+<p>It contains a single scrape job: it is scraping itself, to collect metrics about prometheus’ own internal operation.</p>
+<pre class="hljs"><code><div>    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+      - job_name: 'prometheus'
+    
+        # metrics_path defaults to '/metrics'
+        # scheme defaults to 'http'.
+    
+        metrics_path: '/metrics'
+    
+        static_configs:
+        - targets: ['localhost:9090']
+</div></code></pre>
+<p>Prometheus metrics are human-readable. Run the following command to scrape the metrics yourself:</p>
+<pre class="hljs"><code><div>    # curl localhost:9090/metrics
+</div></code></pre>
+<p>You should see several screensful of data such as</p>
+<pre class="hljs"><code><div>    # HELP promhttp_metric_handler_requests_total Total number of scrapes by HTTP status code.
+    # TYPE promhttp_metric_handler_requests_total counter
+    promhttp_metric_handler_requests_total{code=&quot;200&quot;} 18
+    promhttp_metric_handler_requests_total{code=&quot;500&quot;} 0
+    promhttp_metric_handler_requests_total{code=&quot;503&quot;} 0
+</div></code></pre>
+<p>This is exactly what prometheus does every 15 seconds.</p>
+<p>You don’t need to understand what each individual metric means, but each row represents a separate timeseries which will be collected into prometheus’ time series database for graphing, alerting etc.</p>
+<pre class="hljs"><code><div>    promhttp_metric_handler_requests_total{code=&quot;200&quot;} 18
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^  ^^
+                METRIC NAME                  LABELS   VALUE
+</div></code></pre>
+<h2 id="4-access-the-web-interface">4. Access the web interface</h2>
+<p>In your web browser, go to <a href="https://oob.srvX.lab.shakya.io/prometheus">http://srvX.lab.shakya.io:9090</a></p>
+<p>You should see the Prometheus basic query interface. This is a great place to do ad-hoc PromQL queries and graphs.</p>
+<p>Browse to the <code>Status</code> menu and select <code>Targets</code> to see a summary of the targets being scraped - so far only Prometheus itself.</p>
+<h2 id="41-counters">4.1. Counters</h2>
+<p>In the expression interface (click on “Graph” at the top of the page), start by typing “promhttp” - all the metrics which match this query will be shown.<br>
+Select “promhttp_metric_handler_requests_total” and then click “Execute”</p>
+<p>You should see a table of results like this:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>promhttp_metric_handler_requests_total{code=&quot;200&quot;,instance=&quot;localhost:9090&quot;,job=&quot;prometheus&quot;}</code></td>
+<td>49</td>
+</tr>
+<tr>
+<td><code>promhttp_metric_handler_requests_total{code=&quot;500&quot;,instance=&quot;localhost:9090&quot;,job=&quot;prometheus&quot;}</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>promhttp_metric_handler_requests_total{code=&quot;503&quot;,instance=&quot;localhost:9090&quot;,job=&quot;prometheus&quot;}</code></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>These are the most recent values for those metrics, stored in the time series database.</p>
+<p>Now click on the “Graph” tab just below the expression interface, and you should see these values over time. The requests for <code>code=&quot;200&quot;</code> have most likely been increasing over time.</p>
+<p>These are examples of “counter” metrics: they increment every time a particular type of event takes place.</p>
+<h2 id="42-gauges">4.2. Gauges</h2>
+<p>Now back in the query interface, enter “scrape_duration_seconds”. Look at the Console (Table tab) and Graph outputs.</p>
+<p>This is a value which can go up and down over time, and is called a “gauge”. It represents the absolute value of something - in this case, the amount of time the last scrape job took.</p>
+<p>There are other gauges, for example “process_resident_memory_bytes”</p>
+<p>Conventionally, the units for gauges are included at the end of the metric name, such as <code>_seconds</code> or <code>_bytes</code>.</p>
+<h2 id="43-static-series">4.3. Static series</h2>
+<p>Finally, enter “prometheus_build_info” as the query, and look at the Console output (the “Table” tab). You should see a result like this:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prometheus_build_info{branch=&quot;HEAD&quot;,goversion=&quot;go1.14.6&quot;,instance=&quot;localhost:9090&quot;,job=&quot;prometheus&quot;,revision=&quot;983ebb4a513302315a8117932ab832815f85e3d2&quot;,version=&quot;2.20.1&quot;}</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>This is an example of a static timeseries: the value is always 1. The interesting information is in the labels, in this case so you can see what version of prometheus you are running.</p>
+<p>If you were to upgrade prometheus, then you’d get a new timeseries with a different set of labels, but the value of this new timeseries would still be “1”.</p>
+<p>The graph view here isn’t very interesting - it’s just a flat line - but you can see when the timeseries starts and ends.</p>
+<h2 id="44-status-information">4.4. Status information</h2>
+<p>If you go to <code>Status &gt; Runtime &amp; Build Information</code> (menu at the top of the page)then you will get some summary information about Prometheus operation.</p>
+<p>If you would like to see the number of metrics that Prometheus collecting on itself click on <code>Status &gt; TSDB Status</code>. The section labeled “Number of Series” is particularly interesting. You should see something like “789” listed. This means there are 789 distinct time series actively being read into the database. You are collecting 789 metrics just about prometheus itself!</p>
+<p>Fortunately the prometheus time series engine is very efficient, taking on average less than 2 bytes for each data point stored.</p>
+<h2 id="5-modifying-the-prometheus-configuration-note">5. Modifying the prometheus configuration (NOTE)</h2>
+<p>If you change the prometheus configuration - which you’ll do many times in these exercises - you should <em>not</em> restart prometheus. This is because prometheus can take a long time at start up to read in its Write-Ahead Log files (WAL); and also because if you make an error, you don’t want prometheus to stop running.</p>
+<p>Instead, you will send it a signal to reload:</p>
+<pre class="hljs"><code><div>    killall -HUP prometheus       # or: systemctl reload prometheus
+    journalctl -eu prometheus     # check the logs!
+</div></code></pre>
+<p>If the new config is bad, prometheus will log an error and keep running with the old configuration. If the new config is good, it will log success and start using the new configuration.</p>
+<p>There is also a command you can use to validate the configuration <em>before</em> you try to load it:</p>
+<pre class="hljs"><code><div>    /opt/prometheus/promtool check config /etc/prometheus/prometheus.yml
+</div></code></pre>
+<h2 id="6-command-line-queries">6. Command line queries</h2>
+<p>As well as the web interface, you can query prometheus using its REST API, and this can be done from the command line. Try for example:</p>
+<pre class="hljs"><code><div>    /opt/prometheus/promtool query instant http://localhost:9090/ prometheus_build_info
+    /opt/prometheus/promtool query instant http://localhost:9090/ up
+</div></code></pre>
+<p>The first item gives you all the specific version information for the Prometheus you are currently running.</p>
+<p>The second item tells you if Prometheus is up and ends with a Unix timestamp of the current time and date. If you want to conver that on the command line take the bit of output that looks something like <code>@[1613883552.17]</code> and just copy the number piece, then issue the command:</p>
+<pre class="hljs"><code><div>    # date -d @1613883552.17
+</div></code></pre>
+<p>Use the number you got, not the one listed above as that’s from when these exercises were created.</p>
+<h2 id="7-further-reading">7. Further reading</h2>
+<p><a href="https://medium.com/@valyala/prometheus-storage-technical-terms-for-humans-4ab4de6c3d48">Prometheus Storage Technical Terms for Humans</a></p>
+
+</body>
+</html>
