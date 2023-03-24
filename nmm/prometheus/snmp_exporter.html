@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>snmp_exporter.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="snmp-exporter">SNMP Exporter</h2>
+<p>Network devices and switches don’t have prometheus exporters. But fortunately there is snmp_exporter which can convert prometheus scrapes into SNMP queries.</p>
+<p>Do this on your campus server instance (srvX.lab.shakya.io)</p>
+<h2 id="1-install-snmpexporter">1 Install snmp_exporter</h2>
+<blockquote>
+<p><em>(If snmp_exporter is pre-installed, skip to the next section “Start snmp_exporter”)</em></p>
+</blockquote>
+<p>Fetch and unpack the latest release from the <a href="https://github.com/prometheus/snmp_exporter/releases/">releases page</a> and create a symlink so that <code>/opt/snmp_exporter</code> refers to the current version.</p>
+<pre><code>wget https://github.com/prometheus/snmp_exporter/releases/download/vX.Y.Z/snmp_exporter-X.Y.Z.linux-amd64.tar.gz
+tar -C /opt -xvzf snmp_exporter-X.Y.Z.linux-amd64.tar.gz
+ln -s snmp_exporter-X.Y.Z.linux-amd64 /opt/snmp_exporter
+</code></pre>
+<p>Use a text editor to create a systemd unit file <code>/etc/systemd/system/snmp_exporter.service</code> with the following contents:</p>
+<pre><code>[Unit]
+Description=Prometheus SNMP Exporter
+Documentation=https://github.com/prometheus/snmp_exporter
+After=network-online.target
+
+[Service]
+User=prometheus
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/etc/default/snmp_exporter
+ExecStart=/opt/snmp_exporter/snmp_exporter $OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>Tell systemd to read this new file:</p>
+<pre><code>systemctl daemon-reload
+</code></pre>
+<p>Also create an options file <code>/etc/default/snmp_exporter</code> with the following contents:</p>
+<pre><code>OPTIONS='--config.file=/etc/prometheus/snmp/snmp.yml'
+</code></pre>
+<p>Create the initial default configuration:</p>
+<pre><code>mkdir /etc/prometheus/snmp
+cp /opt/snmp_exporter/snmp.yml /etc/prometheus/snmp/
+</code></pre>
+<h2 id="2-start-snmpexporter">2 Start snmp_exporter</h2>
+<p>Let’s start snmp_exporter:</p>
+<pre><code>systemctl enable snmp_exporter  # start on future boots
+systemctl start snmp_exporter   # start now
+journalctl -eu snmp_exporter    # check for &quot;Listening on address&quot; address=:9116
+</code></pre>
+<p>Use cursor keys to move around the journalctl log output, and “q” to quit. If there are any errors, then go back and fix them.</p>
+<h2 id="3-configure-community-string">3 Configure community string</h2>
+<p>snmp_exporter’s configuration file is generated using a separate “generator” tool, whose input is the MIBs, a higher level description of requirements, and also combines the security credentials like SNMPv2/v3 keys.</p>
+<p>Unfortunately, the “generator” tool is currently not bundled and has to be built from source, making it inconvenient to re-use.</p>
+<p>Instead, we will modify the existing file as a workaround.</p>
+<p>Edit <code>/etc/prometheus/snmp/snmp.yml</code></p>
+<p>Search down to the line which starts <code>if_mib:</code>. This is around line 6084. Don’t scroll by hand - use your editor’s search function!</p>
+<p>Add <code>&amp;if_mib</code> to the end of that line, so it looks like this:</p>
+<pre><code>if_mib: &amp;if_mib
+</code></pre>
+<p>Now scroll down to the very end of the file (again - don’t scroll by hand, it’s over 20,000 lines), and add the following:</p>
+<pre><code>if_mib_v3:
+  &lt;&lt;: *if_mib
+  version: 3
+  timeout: 3s
+  retries: 3
+  auth:
+    security_level: authNoPriv
+    username: admin
+    password: NetManage
+    auth_protocol: SHA
+</code></pre>
+<p>What this does is creates a new module “if_mib_v3” which is a copy of “if_mib” but with the security settings overridden for SNMPv3 with our credentials.</p>
+<p>Save, and signal snmp_exporter to pick up the change:</p>
+<pre><code>killall -HUP snmp_exporter
+journalctl -eu snmp_exporter     # check for errors
+</code></pre>
+<p>If there are any errors, fix them.</p>
+<h2 id="4-manual-scrape">4 Manual scrape</h2>
+<p>Perform manual scrapes of two devices, using the following commands:</p>
+<pre><code>curl 'localhost:9116/snmp?module=if_mib_v3&amp;target=gw-rtr.lab.shakya.io'
+curl 'localhost:9116/snmp?module=if_mib_v3&amp;target=rtr1-gY.lab.shakya.io'
+</code></pre>
+<p>Note that in each case the scrape is being sent to <code>localhost</code> (where snmp_exporter is running), but it includes two parameters: <code>module</code> says which MIB and credentials to use, and <code>target</code> tells snmp_exporter where to send the SNMP query (this can be either a resolvable DNS name or IP address)</p>
+<p>You <em>should</em> get a large number of metrics back in prometheus format, e.g.</p>
+<pre><code># HELP ifHCInOctets The total number of octets received on the interface, including framing characters - 1.3.6.1.2.1.31.1.1.1.6
+# TYPE ifHCInOctets counter
+ifHCInOctets{ifAlias=&quot;&quot;,ifDescr=&quot;Intel Corporation Ethernet Connection (2) I219-LM&quot;,ifIndex=&quot;2&quot;,ifName=&quot;eno1&quot;} 448744
+...
+# HELP sysUpTime The time (in hundredths of a second) since the network management portion of the system was last re-initialized. - 1.3.6.1.2.1.1.3
+# TYPE sysUpTime gauge
+sysUpTime 1.20071e+06
+</code></pre>
+<p>The comment shows the SNMP OID, but in each case it has been translated to a plain prometheus metric.</p>
+<h2 id="5-prometheus-configuration">5 Prometheus configuration</h2>
+<p>Now we are ready to move onto configuring prometheus.</p>
+<p>Firstly, configure a targets file <code>/etc/prometheus/targets.d/snmp.yml</code> containing the following:</p>
+<pre><code>- labels:
+    module: if_mib_v3
+  targets:
+    - gw-rtr.lab.shakya.io
+    - rtr1-gY.lab.shakya.io
+</code></pre>
+<p>However we have a slight problem: we don’t want prometheus to scrape these targets directly. We want it to scrape the snmp_exporter on localhost and pass the target and module as parameters in the URL. To do this, we are going to need to use prometheus’ relabeling feature.</p>
+<p>Edit <code>/etc/prometheus/prometheus.yml</code> and add the following to the bottom of the <code>scrape_configs:</code> section:</p>
+<pre><code>  - job_name: 'snmp'
+    file_sd_configs:
+      - files:
+         - /etc/prometheus/targets.d/snmp.yml
+    metrics_path: /snmp
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [module]
+        target_label: __param_module
+      - target_label: __address__
+        replacement: 127.0.0.1:9116  # SNMP exporter
+</code></pre>
+<p>Again, be careful with spacing. The dash before <code>job_name</code> should align exactly with the dashes of earlier <code>job_name</code> entries.</p>
+<p>For details how this works, see the end of this sheet.</p>
+<p>Now get prometheus to pick up the changes:</p>
+<pre><code>killall -HUP prometheus
+journalctl -eu prometheus    # CHECK FOR ERRORS!
+</code></pre>
+<h2 id="51-testing">5.1 Testing</h2>
+<p>Return to the prometheus web interface at <a href="http://srvX.lab.shakya.io:9090">http://srvX.lab.shakya.io:9090</a></p>
+<p>Run the following queries:</p>
+<pre><code>up{job=&quot;snmp&quot;}
+
+scrape_samples_scraped{job=&quot;snmp&quot;}
+</code></pre>
+<p>The query “up” will return 1 for all target devices - even if the SNMP query fails - because snmp_exporter itself is working. However “scrape_samples_scraped” will show the number of values retrieved; if it’s 0 then that means there was a problem with SNMP.</p>
+<p>If there is a problem, sometimes it is helpful to use tcpdump to see the scrape attempts between prometheus and snmp_exporter:</p>
+<pre><code>tcpdump -i lo -nnA -s0 tcp port 9116
+</code></pre>
+<p>If scraping is successful, then you can now browse some of the values using the Console tab, for example:</p>
+<pre><code>ifOperStatus    # this is a gauge (values 1,2 etc defined in the MIB)
+
+ifHCInOctets    # this is a counter
+</code></pre>
+<p>Can you remember how to change this counter into a rate in bits-per-second, so that you can get a traffic graph? Refer to the node_exporter exercise if you need to.</p>
+<h2 id="52-adding-more-nodes">5.2 Adding more nodes</h2>
+<p>Add the border and core routers for ONE other campus in your targets file. Don’t do them all in case the 15-second polling interval overwhelms our platform.</p>
+<p>Remember that you don’t need to HUP prometheus after updating the targets file.</p>
+<h2 id="6-how-relabeling-works-reference-only">6 How relabeling works (reference only)</h2>
+<p>When prometheus reads a target file, it puts each entry into a hidden label called <code>__address__</code>. It also uses <code>__address__</code> as the endpoint to scrape. After scraping, the <code>__address__</code> is copied to a label called “instance” if one doesn’t exist. Finally, any label beginning with <code>__</code> is removed from the result.</p>
+<p>However, before scraping there is an optional relabeling phase, where a set of relabeling steps are applied in order. What we have done is:</p>
+<pre><code>      - source_labels: [__address__]
+        target_label: instance
+</code></pre>
+<p>This copies the <code>__address__</code> label to the <code>instance</code> label. Therefore we end up with a label like <code>instance=&quot;gw-rtr.lab.shakya.io&quot;</code></p>
+<pre><code>      - source_labels: [__address__]
+        target_label: __param_target
+</code></pre>
+<p>We also copy the <code>__address__</code> label to <code>__param_target</code>; this gets applied as a parameter called “target” in the final URL</p>
+<pre><code>      - source_labels: [module]
+        target_label: __param_module
+</code></pre>
+<p>Similarly, we copy the label <code>module</code> (which was applied in the targets file to the group of targets) to <code>__param_module</code></p>
+<pre><code>      - target_label: __address__
+        replacement: 127.0.0.1:9116  # SNMP exporter
+</code></pre>
+<p>Finally, we replace <code>__address__</code> with “127.0.0.1:9116”, which means that the actual scrape is sent to the snmp_exporter running on the local host. We also set metrics_path to <code>/snmp</code>, instead of the default which is <code>/metrics</code>, because this is what snmp_exporter requires.</p>
+
+</body>
+</html>

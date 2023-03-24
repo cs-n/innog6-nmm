@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ex-grafana.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="grafana-dashboards">Grafana: Dashboards</h1>
+<p>We now have all this data collected in prometheus, but currently the only way to access it is by writing PromQL queries. In this exercise we’re going to add Grafana as a dashboard frontend.</p>
+<p>Do this on your server instance (srvX.lab.shakya.io)</p>
+<h2 id="1-install-grafana">1 Install grafana</h2>
+<blockquote>
+<p><em>(If grafana is pre-installed, skip to the next section “Start grafana”)</em></p>
+</blockquote>
+<p>Grafana is <a href="https://grafana.com/docs/grafana/latest/installation/">available</a> pre-packaged in many formats, including deb packages for Ubuntu.</p>
+<pre><code>curl -s https://packages.grafana.com/gpg.key | apt-key add -
+echo &quot;deb https://packages.grafana.com/oss/deb stable main&quot; &gt;/etc/apt/sources.list.d/grafana.list
+apt-get update
+apt-get install grafana
+</code></pre>
+<h2 id="2-start-grafana">2 Start grafana</h2>
+<p>Start grafana using:</p>
+<pre><code># systemctl enable grafana-server   # start on future boots
+# systemctl start grafana-server    # start now
+# journalctl -eu grafana-server     # check for &quot;Server is ready to receive web requests.&quot;
+</code></pre>
+<p>The web interface is available at <a href="http://srvX.lab.shakya.io:3000">http://srvX.lab.shakya.io:3000</a> and the initial login is “admin” and “innog6”. It will prompt you to change the password - use the class password.</p>
+<p>On the left hand side are seven icons:</p>
+<ul>
+<li>(Magnifying glass) - Search dashboards</li>
+<li>(Plus) - Create</li>
+<li>(Squares) - Dashboards</li>
+<li>(Compass) - Explore</li>
+<li>(Bell) - Alerting</li>
+<li>(Cog) - Configuration</li>
+<li>(Shield) - Server Admin</li>
+</ul>
+<h2 id="3-add-prometheus-data-source">3 Add prometheus data source</h2>
+<ul>
+<li>Go to <code>Configuration &gt; Data Sources</code></li>
+<li>Click “Add data source”</li>
+<li>Click “Prometheus”</li>
+<li>Enter in URL field: <code>http://127.0.0.1:9090</code></li>
+<li>Leave rest of fields as defaults</li>
+<li>Click <code>Save &amp; Test</code></li>
+</ul>
+<p>You should get a green box saying “Data source is working”. If not, debug.</p>
+<h2 id="4-create-a-basic-snmp-panel">4 Create a basic SNMP panel</h2>
+<p>Go to <code>Create &gt; Dashboard</code>. You will see “New dashboard” with “Add new panel”, “Convert to row”</p>
+<p>Click “Add new panel”. You will get the panel editor, which displays a graph, below it tabs for “Query / Transform / Alert”, and to the right the panel settings.</p>
+<p>At the top just above the graph, there is a query duration which probably says “Last 6 hours”. Change this to “Last 15 minutes” - it will make the queries run faster.</p>
+<p>In the Query section, Under heading “A”, next to Metrics enter <code>rate(ifHCInOctets[$__rate_interval])*8</code> and then click somewhere outside. After a few seconds, graphs should be drawn.</p>
+<blockquote>
+<p>Note: the variable <a href="https://grafana.com/docs/grafana/latest/datasources/prometheus/#using-__rate_interval-variable"><code>$__rate_interval</code></a> gives the appropriate interval to calculate a prometheus <code>rate()</code> between two adjacent graph points, taking into account the current zoom level. It was introduced in Grafana 7.2.</p>
+</blockquote>
+<p>Underneath Metrics, in the Legend field enter <code>{{instance}} {{ifDescr}} in</code>. This should simplify the labels on the legend.</p>
+<p>At the bottom, click the “+ Query” button. This will give you a query “B”. In this one, enter <code>rate(ifHCOutOctets[$__rate_interval])*8</code></p>
+<p>Again, next to Legend enter <code>{{instance}} {{ifDescr}} out</code></p>
+<p>Now move your attention to the right-hand area of the screen, under “Panel”.</p>
+<p>The first section, under heading “Settings”, may already be expanded - if not, click to expand it. Under “Panel title” write “Traffic In/Out” and click outside. You should see the title of the panel change.</p>
+<p>Now move to the section entitled “Display”, again expand it if necessary. Turn on “Staircase” and notice the difference in the graph. You can keep this turned on, or turn it off again, whichever you prefer.</p>
+<p>Hover your mouse over the graph: it should show lots of timeseries values. (If it doesn’t, click in any unused area of the left-hand panel, and try again). Back to the “Display” settings, under “Hover tooltip” set Mode to “Single”. Now try hovering over the graph again, and notice the difference; it should show only the specific value for the line you’re pointing at.</p>
+<p>Next, scroll down to and expand the section “Series overrides”, and click “+ Add series override”.</p>
+<p>In the field “Alias or regex” enter <code>/ out/</code>. Below this click the “+” button and select “Transform &gt; negative-Y”. What you should now see is that the inbound traffic is shown above the line, and outbound traffic below the line. You’ve told it to do this for every series whose legend contains the string &quot; out&quot;.</p>
+<p>Next, expand the section “Axes”. Under “Left Y” find the setting “Unit”, click to change to “Data rate &gt; bits/sec(SI)”. The graph axis should change to showing kb/s or Mb/s.</p>
+<p>Next, expand the section “Legend”. Under Options, turn on “As Table” and “To the right”. Notice the difference in the graph.</p>
+<p>Also under “Legend”, “Hide Series” turn on both “With only nulls” and “With only zeros”. This will hide any ports where there is no traffic.</p>
+<p>In the top-right corner of the screen, click “Apply” to finalise the settings for this panel.</p>
+<p>You can stretch the panel to fit the screen width, by dragging on its bottom right-hand corner. When you are happy, click the floppy disk icon to save: enter “SMMP Traffic” as the dashboard name, and click the blue Save button.</p>
+<p>Noe: if you want to change the name of your dashboard after the first save, then click on the cog at the very top of the screen (next to the floppy disk icon). And if you want to re-edit your panel, click to the right of the panel title, where you’ll find a drop-down menu where you can select “Edit”</p>
+<h2 id="5-filtering-with-variables">5 Filtering with Variables</h2>
+<p>We now have a workable graph. The problem is that it includes <em>all</em> interfaces across <em>all</em> devices. Not only is this cluttered, but it will become unworkably slow once you have many interfaces.</p>
+<p>We need to filter it down, and this is done using variables.</p>
+<p>Click on the top cog (Dashboard Settings, next to the floppy disk), then select Variables from the left-hand menu.</p>
+<p>Click “Add Variable”</p>
+<ul>
+<li>General
+<ul>
+<li>Name: <code>instance</code></li>
+<li>Type: Query (this is already the default)</li>
+</ul>
+</li>
+<li>Query Options
+<ul>
+<li>Data source: <code>prometheus</code></li>
+<li>Query: <code>label_values(ifIndex, instance)</code></li>
+<li>Sort: Alphabetical (asc)</li>
+</ul>
+</li>
+<li>Under “Preview of values” you should see the names of the SNMP devices you are polling</li>
+<li>Click the blue Add button at the bottom</li>
+<li>You should return to the Variables page, showing your new variable <code>instance</code></li>
+</ul>
+<p>Click the “Go back” (left arrow at very top-left corner). This will show your panel again.</p>
+<p>Click on the panel title, where it says “Traffic In/Out”. To the right of this title is a small drop-down arrow. Click on this and select “Edit”. This brings you back into the editor.</p>
+<p>Change your queries so they look like this:</p>
+<pre><code>rate(ifHCInOctets{instance=&quot;$instance&quot;}[$__rate_interval])*8
+
+rate(ifHCOutOctets{instance=&quot;$instance&quot;}[$__rate_interval])*8
+</code></pre>
+<p>You’ll notice there’s an “instance” drop-down at the top left of the screen. Select from this, and you’ll be switching between different devices; only the interfaces from the selected device will be shown.</p>
+<p>Since only one device is being shown at once, you can change the Legend for each query so it only shows the interface description:</p>
+<pre><code>{{ifDescr}} in
+
+{{ifDescr}} out
+</code></pre>
+<p>This is much better, but what if we only want to see one interface at a time? Then we add another variable.</p>
+<ul>
+<li>Go back to Dashboard Settings (top cog), Variables</li>
+<li>Click “New”</li>
+<li>General
+<ul>
+<li>Name: “ifDescr”</li>
+<li>Type: Query</li>
+<li>Label: “interface”</li>
+</ul>
+</li>
+<li>Query Options
+<ul>
+<li>Data source: prometheus</li>
+<li>Query: <code>ifIndex{instance=&quot;$instance&quot;}</code></li>
+<li>Regex: <code>/ifDescr=&quot;(.*?)&quot;/</code></li>
+<li>Sort: Alphabetical (asc)</li>
+<li>Turn on “Multi-value”</li>
+<li>Turn on “Include All option”</li>
+</ul>
+</li>
+<li>Click blue “Update” at the bottom</li>
+</ul>
+<p>You should now have two variables:</p>
+<p>Variable</p>
+<p>Definition</p>
+<p><code>$instance</code></p>
+<p><code>label_values(ifIndex, instance)</code></p>
+<p><code>$ifDescr</code></p>
+<p><code>ifIndex{instance=&quot;$instance&quot;}</code></p>
+<p>Return to the panel editor (Back via left-hand arrow in top-left corner; if necessasry select Edit next to the panel title)</p>
+<p>Change the queries as follows:</p>
+<pre><code>rate(ifHCInOctets{instance=&quot;$instance&quot;,ifDescr=~&quot;[[ifDescr]]&quot;}[$__rate_interval])*8
+
+rate(ifHCOutOctets{instance=&quot;$instance&quot;,ifDescr=~&quot;[[ifDescr]]&quot;}[$__rate_interval])*8
+</code></pre>
+<p>Note that because we defined ifDescr to be a “multi-valued” field, we must use regex compare (<code>=~</code>) instead of equality (<code>=</code>). We could have used <code>$ifDescr</code> to identify the variable, but the <a href="https://grafana.com/docs/grafana/latest/features/datasources/prometheus/#using-variables-in-queries">alternative form</a> <code>[[ifDescr]]</code> avoids confusion with the special meaning of <code>$</code> in a regex.</p>
+<p>Now on the interface drop-down, you can select any single interface, combination of interfaces, or “All”, and get the graphs overlaid. Click “Apply” at the top-right when you’re happy with this.</p>
+<p>Click “Save Dashboard” (the floppy disk at the top) to keep your changes. You can optionally enter a note about what you changed, e.g. “added interface selection”.</p>
+<p>Note: this approach relies on all your interfaces having a unique “ifDescr”. If this isn’t true, you can use “ifIndex” instead, but then the drop-down menu will show the less friendly index number instead.</p>
+<h2 id="6-adding-single-stats">6 Adding single stats</h2>
+<p>For a front-page dashboard, it can be useful to show some headline stats such as the number of hosts which are up or down.</p>
+<p>To add a new panel to your dashboard, click the icon on the top row which looks like a bar chart with a plus sign, to the left of the floppy disk.</p>
+<p>Click “Add new panel”. In the query (next to “Metrics”), enter</p>
+<pre><code>count(up{job=&quot;snmp&quot;})
+</code></pre>
+<p>This gives the number of devices being polled via SNMP.</p>
+<p>Enable the button “Instant”. This turns it into a single point in time query, rather than an average over the selected time range.</p>
+<p>On the right, under the “Settings” section change the title to “Number of devices”.</p>
+<p>Open the “Visualization” section. Change from “Graph” to “Stat”.</p>
+<p>Click “Apply” at top right. Shrink your panel to make it a sensible size, by dragging on the bottom right corner.</p>
+<p>On your new panel, next to the title, click the down-arrow and select “More… Duplicate” to get a copy of this panel. Edit it, change the query to</p>
+<pre><code>count(ifOperStatus != 1)
+</code></pre>
+<p>and change the title to “SNMP interfaces down”.</p>
+<p>Now in the top right, where there are tabs for “Panel”, “Field” and “Overrides”, select “Field”. Go down to the section “Thresholds”, and change the threshold for red to 1. This means that the value “0” will display in green, and anything else in red. Then click “Apply” at top right.</p>
+<p>Optional: try changing the visualization to “Gauge”, and under “Field”, “Standard Options” set Min 0, Max 10, so you get a speedometer-like display.</p>
+<h2 id="7-adding-tables">7 Adding tables</h2>
+<p>Let’s get a table of MAC addresses of our interfaces. The information is buried in the labels of “ifPhysAddress”, one time series per interface. Here is an example of the kind of metric returned:</p>
+<pre><code>ifPhysAddress{ifDescr=&quot;lxdbr0&quot;,ifIndex=&quot;6&quot;,ifName=&quot;lxdbr0&quot;,ifPhysAddress=&quot;FE:19:86:D7:1D:AE&quot;,instance=&quot;gw-rtr.lab.shakya.io&quot;,job=&quot;snmp&quot;,module=&quot;if_mib1&quot;} 1
+</code></pre>
+<ul>
+<li>Add panel</li>
+<li>Add new panel
+<ul>
+<li>Set query metrics to <code>ifPhysAddress{instance=&quot;$instance&quot;}</code></li>
+<li>Select format “Table” (instead of “Time Series”)</li>
+<li>Turn on the “Instant” button</li>
+</ul>
+</li>
+<li>Go to “Panel &gt; Settings”
+<ul>
+<li>Set Panel title to “Interfaces”</li>
+</ul>
+</li>
+<li>Go to “Panel &gt; Visualization”
+<ul>
+<li>Change visualization type to “Table”. You should now have a basic table, although it has extra columns that we don’t want</li>
+</ul>
+</li>
+<li>Below the graph, where there are tabs “Query” and “Transform”, select the “Transform” tab
+<ul>
+<li>Click on “Organize fields”</li>
+<li>Click on the eye next to <code>Time</code>, <code>__name__</code>, <code>instance</code>, <code>job</code>, <code>module</code> and <code>Value</code> to hide all those columns</li>
+</ul>
+</li>
+</ul>
+<p>Click “Apply” at top right. Move your interfaces table in the dashboard and resize until you like how it looks. Note that by clicking on the column headings you can sort by different columns.</p>
+<p>Optional: if you edit the panel, go to “Field &gt; Table options” and turn on “Column filter”, then you can also enable Excel-style filtering of values.</p>
+<p>Remember to save your changes.</p>
+<h2 id="8-importing-dashboards">8 Importing dashboards</h2>
+<p>Dashboard definitions can be exported as JSON and shared - this means you can load in third-party dashboards. Beware they may need customizing to work in your environment, and may be of variable quality, so you may need to try several.</p>
+<p>As an example, we will import a dashboard for Node Exporter stats.</p>
+<p>First, go to <a href="https://grafana.com/grafana/dashboards">https://grafana.com/grafana/dashboards</a>. Under “Filter by”, enter “node exporter” and you will get a large number of matches. The one with ID “11074” seems fairly popular, click on it for more info.</p>
+<p>Now return to your own Grafana instance at <a href="http://srvX.lab.shakya.io:3000">http://srvX.lab.shakya.io:3000</a></p>
+<ul>
+<li>From the very left column, select “Dashboards” (4 squares) and submenu “Manage”</li>
+<li>Click the blue button “Import”</li>
+<li>Under “Import via grafana.com”, rnter “11074” and click Load.</li>
+<li>An import page will appear</li>
+<li>Near the bototm, where it says “Select a Prometheus data source”, click and select “Prometheus”</li>
+<li>Click “Import”</li>
+</ul>
+<p>A simple set of graphs will appear.</p>
+<p>But there are problems: for example, “Disk Space Used Basic” is showing no graphs. It’s up to you to edit the query to see what’s going on. It turns out that the author of this dashboard has decided to limit filesystems to just these two types:</p>
+<pre><code>fstype=~&quot;ext.*|xfs&quot;
+</code></pre>
+<p>But the classroom is using btrfs, so you need to change this in all queries to:</p>
+<pre><code>fstype=~&quot;btrfs|ext.*|xfs&quot;
+</code></pre>
+<p>This dashboard doesn’t have the detail needed for analysing performance problems, so let’s try importing another one.</p>
+<p>On grafana.com you’ll see dashboard 1860 has had a huge number of downloads. We’ve published our own tweaked version of this as 12486.</p>
+<p>So go back to your grafana instance and repeat the import, this time with ID “12486”. This will give you a <em>much</em> more detailed set of node_exporter graphs.</p>
+<p>For SNMP graphs, try importing 12489 and 12492. These are simple dashboards put together for this workshop: one shows the traffic on all interfaces overlaid on a single graph, and one shows more detailed stats for a single interface.</p>
+
+</body>
+</html>
