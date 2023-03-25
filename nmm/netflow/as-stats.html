@@ -398,9 +398,8 @@ in your AS stats. We can use the sample knownlinks file and modify it:</p>
 <pre class="hljs"><code><div>$ sudo vi /opt/AS-Stats/conf/knownlinks
 </div></code></pre>
 <p>Delete all sample config and add the following line (replace 192.168.10.1 with your router IP).</p>
-<pre class="hljs"><code><div># Router IP SNMP ifindex[/VLAN] tag description color sampling
-rate
-192.168.10.1 1 uplink uplink A6CEE3 1
+<pre class="hljs"><code><div># Router IP	SNMP ifindex[/VLAN]	tag	description	color	sampling rate
+192.168.10.1	1	uplink	uplink	A6CEE3	1
 </div></code></pre>
 <p>Get the SNMP index from your router. In this case, we are generating a graph on interface
 FastEthernet0/0, that’s why we use Ifindex 1 in the knownlinks file.</p>
@@ -430,13 +429,14 @@ $ sudo wget https://raw.githubusercontent.com/JackSlateur/perlip2as/master/ip2as
 <p>Now try the <code>/opt/AS-Stats/bin/asstatd.pl</code> command again.</p>
 <p>Check the process:</p>
 <pre class="hljs"><code><div>$ ps -ef|grep AS-Stats
-root 19221 28478 0 01:40 pts/0 00:00:00 sudo nohup /opt/ASStats/bin/asstatd.pl -P 0 -p 9000 -r /opt/AS-Stats/rrd -k /opt/ASStats/conf/knownlinks
-root 19222 19221 0 01:40 pts/0 00:00:00 /usr/bin/perl -w /opt/ASStats/bin/asstatd.pl -P 0 -p 9000 -r /opt/AS-Stats/rrd -k /opt/ASStats/conf/knownlinks
+
+root     19221 28478  0 01:40 pts/0    00:00:00 sudo nohup /opt/ASStats/bin/asstatd.pl -P 0 -p 9000 -r /opt/AS-Stats/rrd -k /opt/ASStats/conf/knownlinks
+root     19222 19221  0 01:40 pts/0    00:00:00 /usr/bin/perl -w /opt/ASStats/bin/asstatd.pl -P 0 -p 9000 -r /opt/AS-Stats/rrd -k /opt/ASStats/conf/knownlinks
 </div></code></pre>
 <p>By default, <code>asstatd.pl</code> will listen on port 9000 (UDP) for NetFlow datagrams, and on port 6343
 (UDP) for sFlow datagrams. Here we only enable NetFlow.</p>
-<pre class="hljs"><code><div>$ netstat -na|grep 9000
-udp 0 0 0.0.0.0:9000 0.0.0.0:*
+<pre class="hljs"><code><div>$ netstat -na | grep 9000
+udp        0      0 0.0.0.0:9000            0.0.0.0:*
 </div></code></pre>
 <p>Now we will forward the flow. For this example, we will use the Flexible NetFlow command:</p>
 <pre class="hljs"><code><div>flow exporter AS-STATS
@@ -466,20 +466,32 @@ ipv6 flow monitor IPV6-AS-STATS input
 </div></code></pre>
 <p>After three to four minutes, you should see RRD files popping up in the <code>/opt/AS-Stats/rrd</code>
 folder. If you don’t, try checking with <code>tcmdump</code> . The following filter will help you to get the desiredoutput.</p>
-<pre class="hljs"><code><div>$ sudo tcpdump -n dst port 9000 -vv
+<pre class="hljs"><code><div>$ sudo tcpdump  -i eth0 -n -vv -c 10 dst port 9000
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+06:28:04.422335 IP (tos 0x0, ttl 64, id 45342, offset 0, flags [none], proto UDP (17), length 252)
+    127.0.0.1.52026 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 224
+06:28:04.426241 IP (tos 0x0, ttl 64, id 45344, offset 0, flags [none], proto UDP (17), length 208)
+    127.0.0.1.52026 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 180
+06:28:04.433539 IP (tos 0x0, ttl 64, id 19574, offset 0, flags [none], proto UDP (17), length 1428)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 1400
+06:28:04.433700 IP (tos 0x0, ttl 64, id 19576, offset 0, flags [none], proto UDP (17), length 1428)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 1400
+06:28:04.433821 IP (tos 0x0, ttl 64, id 19578, offset 0, flags [none], proto UDP (17), length 264)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 236
+06:28:04.433978 IP (tos 0x0, ttl 64, id 19580, offset 0, flags [none], proto UDP (17), length 1428)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 1400
+06:28:04.434127 IP (tos 0x0, ttl 64, id 19582, offset 0, flags [none], proto UDP (17), length 1428)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 1400
+06:28:04.434272 IP (tos 0x0, ttl 64, id 19584, offset 0, flags [none], proto UDP (17), length 1428)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 1400
+06:28:04.434419 IP (tos 0x0, ttl 64, id 19586, offset 0, flags [none], proto UDP (17), length 1428)
+    202.52.1.1.2056 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 1400
+06:28:04.458290 IP (tos 0x0, ttl 64, id 45347, offset 0, flags [none], proto UDP (17), length 208)
+    127.0.0.1.52026 &gt; 36.0.5.20.9000: [udp sum ok] UDP, length 180
+10 packets captured
+10 packets received by filter
+0 packets dropped by kernel
 
-tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture
-size 65535 bytes
-13:35:40.971315 IP (tos 0x0, ttl 250, id 3815, offset 0, flags
-[none], proto UDP (17), length 168)
-198.51.100.1.50293 &gt; 198.51.100.27.9000: [udp sum ok] UDP, length 140
-13:35:41.971506 IP (tos 0x0, ttl 250, id 3816, offset 0, flags
-[none], proto UDP (17), length 112)
-198.51.100.1.50293 &gt; 198.51.100.27.9000: [udp sum ok] UDP,
-length 84
-13:35:42.971845 IP (tos 0x0, ttl 250, id 3817, offset 0, flags
-[none], proto UDP (17), length 256)
-198.51.100.1.50293 &gt; 198.51.100.27.9000: [udp sum ok] UDP, length 228
 </div></code></pre>
 <p>Add a cronjob to run the following command (preferably every hour).</p>
 <pre class="hljs"><code><div>$ sudo /opt/AS-Stats/bin/rrd-extractstats.pl /opt/AS-Stats/rrd /opt/AS-Stats/conf/knownlinks /opt/AS-Stats/asstats_day.txt
