@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>exercise4-using-NfSen.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="using-nfsen"><strong>Using NfSen</strong></h1>
+<h2 id="introduction"><strong>Introduction</strong></h2>
+<h3 id="goals"><strong>Goals</strong></h3>
+<ul>
+<li>Use NfSen to
+<ul>
+<li>ensure NfSen is running by browsing on the page</li>
+<li>ensuring you can see the graphs with no errors indicated</li>
+<li>We will now see what type of traffic is passing through your group’s route</li>
+</ul>
+</li>
+</ul>
+<h3 id="assumptions"><strong>Assumptions</strong></h3>
+<p>Your router is sending netflow records to your srvX, and that host is running NfSen to collect this data.</p>
+<p><a href="http://srvX.lab.workalaya.net/nfsen/nfsen.php">http://srvX.lab.workalaya.net/nfsen/nfsen.php</a></p>
+<hr>
+<h2 id="create-a-stat-to-graph-specific-traffic"><strong>Create a Stat to graph specific traffic</strong></h2>
+<ul>
+<li>
+<p>Open the NFSEN page and click on ‘live’ on the top right of the page and select “New Profile …”</p>
+<ul>
+<li>You may need to select several times as NfSen is picky.</li>
+</ul>
+</li>
+<li>
+<p>Enter the name ‘HTTP_TRAFFIC’ for the profile name and additionally create a new group called “groupX” where X is your group number</p>
+</li>
+<li>
+<p>Select individual channels and shadow profile.</p>
+<ul>
+<li>
+<p>Individual channel – can create channels with own filters</p>
+</li>
+<li>
+<p>Shadow profile – save hard disk space by not creating new data but instead analyses already collected data</p>
+<p><img src="images/nf-new-profile.png" alt="nf-new-profile"></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Click “Create Profile” at the bottom of the menu.</p>
+<p><img src="images/nf-new-profile-created.png" alt="nf-new-profile-created"></p>
+</li>
+<li>
+<p>Click on the plus (+) sign next to ‘Channel List’ at the bottom of the page then fill the details as shown on the picture</p>
+<p><img src="images/nf-new-channel-name.png" alt="nf-new-channel-name"></p>
+<p>The filter “any” means ALL traffic. Select your sources in “Available Sources” and press the “&gt;&gt;” to add them to “Selected Sources.”</p>
+</li>
+<li>
+<p>Click on ‘Add Channel’ at the bottom.</p>
+</li>
+<li>
+<p>Again click on the plus (+) sign next to ‘Channel List’ at the bottom of the page then fill the details as shown on the picture</p>
+<p><img src="images/nf-new-channel-vm1-g1.png" alt="nf-new-channel-vm1-g1"></p>
+<ul>
+<li>Replace vmX-gY with a VM number in your group that is not yours. Also, replace the IP address in the Filter to match the IP of the VM in question. i.e 100.68.1.21 (vm1-g1), 100.68.6.22 (vm2-g6)</li>
+<li>Ensure you change the color. You can use the color picker or enter the value shown in this example</li>
+<li>Select your group’s routers as the source then click add channel. This will be the netflow exported from rtr1-gY</li>
+<li>With this, we will track how much HTTP traffic is going to that VM. That is how much is actually being downloaded. In a HTTP download, source traffic is always from port 80</li>
+</ul>
+</li>
+<li>
+<p>Activate the profile</p>
+<p><img src="images/nf-profile-channel.png" alt="nf-profile-channel"></p>
+<ul>
+<li>Click the green tick to activate your new profile.</li>
+</ul>
+</li>
+<li>
+<p>Click on Live then select the group you created and “HTTP_TRAFFIC” you will see your profile. Then click on the “Home” menu item on the upper left of the NfSen screen</p>
+</li>
+</ul>
+<h3 id="download-http-data-to-vmx-gy"><strong>Download HTTP data to vmX-gY</strong></h3>
+<p>Log in on vmX-gY in your group and use the wget command to simulate an HTTP download.</p>
+<pre class="hljs"><code><div>lab@vm1-g1:~$ <span class="hljs-built_in">cd</span> /tmp
+lab@vm1-g1:~$ wget http://www.lab.workalaya.net/downloads/BigFile
+</div></code></pre>
+<p>Once the download completes you can delete the file:</p>
+<pre class="hljs"><code><div>lab@vm1-g1:~$ rm /tmp/BigFile
+lab@vm1-g1:~$ <span class="hljs-built_in">exit</span> (to <span class="hljs-built_in">log</span> off from vmX-gY)
+</div></code></pre>
+<h3 id="see-the-traffic"><strong>See the traffic</strong></h3>
+<p>Your graph will take up to 15 min to update. Go to Graphs then Traffic. Then go to details and select <code>Line Graph</code> at bottom</p>
+<p><img src="images/nf-profile-details.png" alt="nf-profile-details"></p>
+<h3 id="stop-whats-happening-here"><strong>Stop! What’s happening here?</strong></h3>
+<ul>
+<li>The server www.lab.workalaya.net is running a HTTP server. In a real network this could be any server on the Internet.</li>
+<li>vmX-gY is downloading a file over HTTP via rtr-gY and is the destination host aka ‘dst host’</li>
+<li>Router is exporting flows to the NFSEN Server and NFSEN graphs</li>
+<li>We have told NFSEN to graph traffic where the source port is 80 and the destination host is 100.68.X.Y. You can do the same thing back in your networks and additionally graph a specific web server with ‘src host a.b.c.d’ eg FaceBook’s IP</li>
+</ul>
+<hr>
+<h2 id="extended-netflow-processing"><strong>Extended Netflow processing</strong></h2>
+<p><img src="images/nf-profile-time-window.png" alt="nf-profile-time-window"></p>
+<p>Go to Profile, select the group you created then select ‘HTTP_TRAFFIC’. Then go to the ‘Details’ tab and select ‘Time Window’ instead of ‘Time Slot’ beneath the graph. Choose a part of the graph with activity as above.</p>
+<p><img src="images/nf-profile-list-flow-options.png" alt="nf-profile-list-flow-options"></p>
+<p>Select the options as on the left. This means, select the Top 10 Flows, Order them by bytes from the highest to the lowest and display information of the source and destination ports and IPs. Then select ‘Process’. Analyze the output you get which will look like the below screen.</p>
+<p><img src="images/nf-profile-list-flow-output.png" alt="nf-profile-list-flow-output"></p>
+<p>Try the same with the BiDirectional traffic option. What do you see? Try playing with the different options and see what output you get.</p>
+<p><img src="images/nf-profile-filter.png" alt="nf-profile-list-flow-options-bi-directional"></p>
+<p>You can also add the same filters on the filter window next to the Options.</p>
+<p><img src="images/nf-profile-list-flow-options-bi-directional.png" alt="nf-profile-filter"></p>
+<p>Try the following filters:</p>
+<ul>
+<li><strong>src host 100.68.X.Y</strong> – meaning look for flows for this host</li>
+<li><strong>src port 22</strong> – meaning flows where the source port is 22</li>
+<li><strong>src port 22 or src port 80</strong> – meaning flows of either port 22 or 80</li>
+<li><strong>src port 80 and in if 1</strong> – meaning flows of src port 80 that passed via interface 1</li>
+<li><strong>dst net 100.64.0.0/10</strong> – meaning all flows where the destination network is 100.64.0.0/10</li>
+<li><strong>src port &gt; 5000</strong> – meaning all flows where the source port is greater than 5000</li>
+</ul>
+<h3 id="many-more-filters-you-could-use"><strong>Many more filters you could use</strong></h3>
+<ul>
+<li>If you want to see AS Number traffic for Google’s AS 15169
+<ul>
+<li>src as 15169</li>
+</ul>
+</li>
+<li>You can do the same for anyone’s AS but your router should have the routing table installed and have ‘ip flow-export version 9 origin-as’ configured</li>
+<li>You can then graph each of them using a Stat as in the earlier exercise</li>
+<li>More filters here:
+<a href="http://nfsen.sourceforge.net/#mozTocId652064">http://nfsen.sourceforge.net/#mozTocId652064</a></li>
+</ul>
+<hr>
+<h2 id="monitor-a-specific-host-additionaloptional"><strong>Monitor a specific host (ADDITIONAL/OPTIONAL)</strong></h2>
+<ul>
+<li>On the “Profile” menu in NfSen select “New Profile…”
+<ul>
+<li>Profile: Troublesom_Users</li>
+<li>Group: groupX</li>
+<li>Channels: individual channels</li>
+<li>Type: Shadow Profile</li>
+</ul>
+</li>
+<li>When done click on “Create Profile” at the bottom</li>
+<li>You will see a message “new profile created”</li>
+<li>Then click on the plus sign at the bottom to begin adding channels
+<ul>
+<li>give channel name like vm1-g6</li>
+<li>Filter: host 100.68.6.21
+(Replace 100.68.X.Y with the IP of your virtual machine)</li>
+<li>Sources: rtr1-g6</li>
+</ul>
+</li>
+<li>Add a second channel and start to accept
+<ul>
+<li>give channel name like vm1-g6</li>
+<li>Filter: dst host 100.68.6.22</li>
+<li>Sources: rtr1-g6</li>
+</ul>
+</li>
+<li>Click on “Add Channel” and then click the green check mark to activate the &quot;Troublesome_User”.</li>
+</ul>
+<h3 id="filters"><strong>Filters</strong></h3>
+<ul>
+<li>Select a different color for the second channel so that the graphs can be distinguished</li>
+<li>Note that the two filters are different
+<ul>
+<li>The first filter will capture any flows pertaining to host one pc</li>
+<li>The second filter will only capture flows where the host the second pc is the DESTINATION host.</li>
+<li>To generate traffic to see on graph details for this profile try transferring files from the first host to the second host.</li>
+</ul>
+</li>
+<li>More attributes can be added here like src AS, dst AS, src ports etc based on the NfSen filter syntax</li>
+</ul>
+<h3 id="see-trends-over-time"><strong>See trends over time</strong></h3>
+<p><img src="images/nf-trends-rrd.png" alt="nf-trends-rrd"></p>
+<hr>
+
+</body>
+</html>

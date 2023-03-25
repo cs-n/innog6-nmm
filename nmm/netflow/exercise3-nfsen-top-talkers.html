@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>exercise3-nfsen-top-talkers.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="using-nfsen-to-identify-top-talkers"><strong>Using NfSen to identify top talkers</strong></h1>
+<h2 id="introduction"><strong>Introduction</strong></h2>
+<h3 id="goals"><strong>Goals</strong></h3>
+<ul>
+<li>Use NfSen to find out which hosts are generating the most inbound and outbound traffic on your network</li>
+</ul>
+<h3 id="assumptions"><strong>Assumptions</strong></h3>
+<p>Your router is sending netflow records to your srvX, and that host is running NfSen to collect this data.</p>
+<p><a href="http://srvX.lab.workalaya.net/nfsen/nfsen.php">http://srvX.lab.workalaya.net/nfsen/nfsen.php</a></p>
+<hr>
+<h2 id="exploring-flow-records"><strong>Exploring flow records</strong></h2>
+<p>Now let's use NfSen to explore the traffic flows in the network, with the aim of finding out who was been downloading the most data. Look carefully at the output generated at each step - ask an instructor to explain if you don't understand what you see.</p>
+<h3 id="navigate-to-detail-page"><strong>Navigate to Detail page</strong></h3>
+<p>The NfSen home page shows a matrix of graphs: flows per second on the left, packets per second in the middle, bits per second on the right. Click on the top-right graph (bits per second, one day view) to get to the Detail page.</p>
+<h3 id="select-time-window"><strong>Select time window</strong></h3>
+<p>Change from &quot;Single Timeslot&quot; to &quot;Time Window&quot;:</p>
+<p><img src="images/nf-time-window.png" alt="nf-time-window"></p>
+<p>Once you have done this, the vertical selector arrow and line in the graph window can be split.</p>
+<p><img src="images/nf-time-window2.png" alt="nf-time-window2"></p>
+<p>Pull the left half of the arrow to the left and the right half to the right, to select the time period of interest. Then you should see some summary statistics appear in the table below the graph, for the time period you have selected:</p>
+<p><img src="images/nf-statistics.png" alt="nf-statistics"></p>
+<p><em>Summary statistics</em>.</p>
+<h3 id="list-individual-flows"><strong>List individual flows</strong></h3>
+<p>Select &quot;List Flows&quot;, make sure none of the &quot;Aggregate&quot; boxes are checked, and then click process. This will display some flows at the beginning of the time period.</p>
+<p><img src="images/nf-list-flows.png" alt="nf-list-flows"></p>
+<p><em>List flows</em>.</p>
+<p>Increase the limit from 20 flows to 100 flows. Notice that much network traffic consists of large numbers of very small flows - for example a DNS query/response will be two flows, one from client to DNS server, and one back again.</p>
+<p>By selecting &quot;bi-directional&quot; you can get NfSen to associate the inbound and outbound flows into a single line:</p>
+<p><img src="images/nf-bidirectional.png" alt="nf-bidirectional"></p>
+<p><em>Bi-directional flows</em>.</p>
+<p>However it's still too much work to wade through this looking for interesting traffic. Uncheck the &quot;Bi-directional&quot; box before continuing.</p>
+<h3 id="flows-tofrom-one-host"><strong>Flows to/from one host</strong></h3>
+<p>If we know which host we want to examine, we can apply a filter to show only those flows to and from that host. Do this by entering &quot;host 100.68.X.Y&quot; in the filter box, and then pressing process again. (Replace 100.68.X.Y with the address of one of a host on your campus. e.g. 100.68.1.21)</p>
+<p><img src="images/nf-flows-host.png" alt="nf-flows-host"></p>
+<p><em>Flows to and from one host</em>.</p>
+<p>This is a little better, but we would still have to wade through lots of small flows to find anything significant. We need to take a different approach.</p>
+<h3 id="largest-flows"><strong>Largest flows</strong></h3>
+<p>The next thing we can do is to get NfSen to sort the flows by number of bytes. Remove any filter from the Filter box; select &quot;Stat TopN&quot;, stat &quot;Flow Records&quot;, order by &quot;Bytes&quot;. Ensure all the aggregate boxes are all unchecked, then press <code>process</code></p>
+<p><img src="images/nf-topn-bytes.png" alt="nf-topn-bytes"></p>
+<p><em>Find top flows by bytes</em>.</p>
+<p><img src="images/nf-topn-bytes-output.png" alt="nf-topn-bytes-output"></p>
+<p><em>Output: top flows by bytes</em>.</p>
+<p>This is a definite improvement, as the flows with the largest number of bytes are shown first. However there's a problem - we are still looking at individual flows. It's possible that many small flows to the same host would add up to a large amount of traffic, but we wouldn't see them at the top of this list.</p>
+<h3 id="inbound-traffic-grouped-by-receiver-ip-address"><strong>Inbound traffic grouped by receiver IP address</strong></h3>
+<p>What we want to see is a single line for each host in our network, showing the total amount of traffic delivered to that host.</p>
+<p>To do this, Stat &quot;DST IP Address&quot;, order by &quot;bytes&quot;.</p>
+<p><img src="images/nf-topn-dest.png" alt="nf-topn-dest"></p>
+<p><em>Group flows by DST IP Address</em>.</p>
+<p>This is now much closer to what we want: there is one line for each destination IP address, and they are ordered by total bytes, largest first.</p>
+<p>But there is still one problem - can you see what it is? We are seeing a mixture of inbound flows (where the destination IP is inside our network) and outbound flows (where the destination IP is on the Internet). We are only interested in the inbound flows, so apply a filter which shows only traffic to your group's network: &quot;dst net 100.68.X.0/24&quot; (replacing X with your group number)</p>
+<p><img src="images/nf-topn-dst-local.png" alt="nf-topn-dst-local"></p>
+<p><em>Flows to local network, grouped by DST IP Address</em>.</p>
+<p><img src="images/nf-topn-dst-local-output.png" alt="nf-topn-dst-local-output"></p>
+<p><em>Output: Flows to local network, grouped by DST IP Address</em>.</p>
+<p>At last we have what we want. The first record you see should tell you the local machine which has downloaded the most data in the period selected.</p>
+<h3 id="outbound-traffic-grouped-by-sender-ip-address"><strong>Outbound traffic grouped by sender IP address</strong></h3>
+<p>Question: what changes would you have to make to this query to find out which machines in your network are uploading the most data to the Internet?</p>
+<h3 id="analysing-traffic-to-a-single-host"><strong>Analysing traffic to a single host</strong></h3>
+<p>Now that we know which host has downloaded the most data, we might want to see where it has been downloading from.</p>
+<p>Let's start by looking at the top flows to that host. Change the filter to &quot;dst host 100.68.X.Y&quot; (the IP address you just found). Then select Stat &quot;Flow Records&quot;, order by &quot;bytes&quot;, and <code>process</code>.</p>
+<p><img src="images/nf-dst-host-flows.png" alt="nf-dst-host-flows"></p>
+<p><em>Largest flows to one host</em>.</p>
+<p>You should now see the flows inbound to that host, largest first. But again, we're only seeing large individual flows; a collection of small flows may add together to a large amount of traffic.</p>
+<p>Since we are only looking at flow records to one particular destination IP address, we can group these records by source IP address.</p>
+<p><img src="images/nf-dst-host-srcs.png" alt="nf-dst-host-srcs"></p>
+<p><em>Flows to one host, grouped by SRC IP address</em>.</p>
+<p><img src="images/nf-dst-host-srcs-output.png" alt="nf-dst-host-srcs-output"></p>
+<p><em>Output: Flows to one host, grouped by SRC IP address</em>.</p>
+<p>And now we have one row for each IP address this host has been downloading from, with the total number of bytes downloaded from each IP, largest total first.</p>
+<h3 id="ip-address-information"><strong>IP address information</strong></h3>
+<p>By clicking on an IP address, you will get some information from reverse DNS and whois.</p>
+<p><img src="images/nf-whois.png" alt="nf-whois"></p>
+<p><em>Whois information</em>.</p>
+<hr>
+<h2 id="additional-exercise-aggregating-flows"><strong>Additional exercise: aggregating flows</strong></h2>
+<p>NfSen offers some other ways to summarise the flows, using the Aggregate checkboxes. In this example we'll look again at traffic inbound to your network.</p>
+<p>When you click one or more of the Aggregate boxes, NfSen combines all flows that share the same values of the attribute(s) you have selected.</p>
+<p>To start this exercise, set the filter to &quot;dst net 100.68.X.0/24&quot; (X = your group). Select &quot;Stat TopN&quot;, Stat &quot;Flow Records&quot;, order by &quot;bytes&quot;. Then try the following aggregates, remembering to click process after each one.</p>
+<ul>
+<li>
+<p>Check &quot;proto&quot;. You should get just one row each for TCP, UDP and ICMP, showing the total amount of traffic using each protocol. Sometimes this may show other protocols are active on your network (e.g. protocol 50 = IPSEC ESP; in Linux the file /etc/protocols has a list of them)</p>
+</li>
+<li>
+<p>Check both &quot;proto&quot; and &quot;srcPort&quot;. This tells NfSen to combine together flows which have the same proto and the same srcPort. Depending on what activity has been going on, you may see one line giving the total for TCP port 80, one line for TCP port 443, one line for UDP port 53, and so on.</p>
+</li>
+<li>
+<p>Check &quot;srcIP&quot; by itself. This gives one row for each distinct source IP address, and is the same as selecting Stat SRC IP.</p>
+</li>
+<li>
+<p>Check both &quot;srcIP&quot; and &quot;dstIP&quot;. You will get one row for each unique pair of srcIP and dstIP seen, with the total traffic between those two endpoints.</p>
+</li>
+</ul>
+<p>How would you change the filter to look at outbound traffic, rather than inbound traffic?</p>
+<p>If you have a router with a full BGP table, you can aggregate netflow records by AS number. This is a useful way to find out what networks you are exchanging the most traffic with.</p>
+<hr>
+
+</body>
+</html>
