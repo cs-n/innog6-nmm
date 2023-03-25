@@ -379,7 +379,7 @@ code {
 </ul>
 <h3 id="assumptions"><strong>Assumptions</strong></h3>
 <p>Your router is sending netflow records to your srvX, and that host is running NfSen to collect this data.</p>
-<p><a href="http://srvX.lab.workalaya.net/nfsen/nfsen.php">http://srvX.lab.workalaya.net/nfsen/nfsen.php</a></p>
+<p><a href="http://srvX.lab.shakya.io/nfsen/nfsen.php">http://srvX.lab.shakya.io/nfsen/nfsen.php</a></p>
 <hr>
 <h2 id="create-a-stat-to-graph-specific-traffic"><strong>Create a Stat to graph specific traffic</strong></h2>
 <ul>
@@ -440,7 +440,7 @@ code {
 <h3 id="download-http-data-to-vmx-gy"><strong>Download HTTP data to vmX-gY</strong></h3>
 <p>Log in on vmX-gY in your group and use the wget command to simulate an HTTP download.</p>
 <pre class="hljs"><code><div>lab@vm1-g1:~$ <span class="hljs-built_in">cd</span> /tmp
-lab@vm1-g1:~$ wget http://www.lab.workalaya.net/downloads/BigFile
+lab@vm1-g1:~$ wget http://www.lab.shakya.io/downloads/BigFile
 </div></code></pre>
 <p>Once the download completes you can delete the file:</p>
 <pre class="hljs"><code><div>lab@vm1-g1:~$ rm /tmp/BigFile
@@ -451,7 +451,7 @@ lab@vm1-g1:~$ <span class="hljs-built_in">exit</span> (to <span class="hljs-buil
 <p><img src="images/nf-profile-details.png" alt="nf-profile-details"></p>
 <h3 id="stop-whats-happening-here"><strong>Stop! What’s happening here?</strong></h3>
 <ul>
-<li>The server www.lab.workalaya.net is running a HTTP server. In a real network this could be any server on the Internet.</li>
+<li>The server www.lab.shakya.io is running a HTTP server. In a real network this could be any server on the Internet.</li>
 <li>vmX-gY is downloading a file over HTTP via rtr-gY and is the destination host aka ‘dst host’</li>
 <li>Router is exporting flows to the NFSEN Server and NFSEN graphs</li>
 <li>We have told NFSEN to graph traffic where the source port is 80 and the destination host is 100.68.X.Y. You can do the same thing back in your networks and additionally graph a specific web server with ‘src host a.b.c.d’ eg FaceBook’s IP</li>
