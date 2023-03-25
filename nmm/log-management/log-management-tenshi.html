@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>log-management-tenshi.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<!-- Local Page style -->
+<style scoped>
+h1 {
+  color: #4e8fc7;
+}
+h2 {
+    color: #455a64;
+    color: #f97c28;
+}
+img {
+    float: left;
+    margin-left: -40px;
+}
+pre {
+    margin: -33px 50px 0px;
+    width: 810px;
+    float: right;
+}
+pre > code {
+    background-color: #f8f8f8;
+    color: #4d4d4c;
+}
+</style>
+<!--
+_class: lead
+_footer: '' 
+_paginate: false
+-->
+<!-- End Local Page style-->
+<!-- Slide starts -->
+<br />
+<p><img src="../images/bg-1x1px.png" alt="bg vertical"></p>
+<!-- ![bg 10%](../images/cacti_logo.png) -->
+<p><img src="../images/bg-1x1px.png" alt="bg">
+<img src="../images/bg-1x1px.png" alt="bg"></p>
+<h1 id="fit----network-monitoring-management-and-automation"><!-- fit --> Network Monitoring, Management and Automation</h1>
+<br />
+<br />
+<h2 id="log-management">Log Management</h2>
+<br />
+<br />
+<h3 id="innog-6">INNOG 6</h3>
+<p>Dec 8 - 12, 2019</p>
+<p><a href="http://creativecommons.org/licenses/by-nc/4.0/"><img src="../images/cc-license.png" alt="Creative Commons License"></a></p>
+<pre class="hljs"><code><div>This material is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/)
+</div></code></pre>
+<hr>
+<h2 id="log-management--monitoring">Log Management &amp; Monitoring</h2>
+<ul>
+<li>Keep your logs in a secure place</li>
+<li>Where they can be easily inspected</li>
+<li>Watch your log file</li>
+<li>They contain important information
+<ul>
+<li>Many things happen</li>
+<li>Someone needs to review them</li>
+<li>It’s not practical to do this manually</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="fit---log-management--monitoring-contd"><!--fit--> Log Management &amp; Monitoring (Contd.)</h2>
+<ul>
+<li>
+<p>On your routers and switches</p>
+<pre class="hljs"><code><div>Nov 24 18:49:32 100.68.1.1 %SYS-5-CONFIG_I: Configured from console by lab
+ on vty0 (100.68.1.21)
+Nov 24 18:53:59 100.68.1.1 %SSH-5-SSH2_SESSION: SSH2 Session request from
+ 100.68.100.250 (tty = 1) using crypto cipher '', hmac '' Failed
+Nov 24 19:01:12 100.68.1.1 %SSH-5-SSH2_CLOSE: SSH2 Session from 100.68.1.21
+ (tty = 0) for user 'lab' using crypto cipher 'aes128-cbc', hmac 'hmac-sha1' closed
+</div></code></pre>
+</li>
+<li>
+<p>And, on your servers</p>
+<pre class="hljs"><code><div>Nov 30 14:04:01 vm1-g1 sshd[4345]: pam_unix(sshd:auth): authentication failure;
+ logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.88.228  user=lab
+Nov 30 14:04:03 vm1-g1 sshd[4345]: Failed password for lab from 192.168.88.228
+ port 62338 ssh2
+Nov 30 14:04:08 vm1-g1 sshd[4345]: message repeated 2 times: [ Failed password
+ for lab from 192.168.88.228 port 62338 ssh2]
+Nov 30 14:04:08 vm1-g1 sshd[4345]: Connection closed by authenticating user lab
+ 192.168.88.228 port 62338 [preauth]
+</div></code></pre>
+</li>
+</ul>
+<hr>
+<h2 id="introduction-syslog">Introduction: Syslog</h2>
+<ul>
+<li>Centralize and consolidate log files</li>
+<li>Send all log messages from your routers, switches and servers to a single node – a log server.</li>
+<li>All network hardware and UNIX/Linux servers can be monitored using some version of <strong>syslog</strong> (we use either <em><strong>syslog-ng</strong></em> or <em><strong>rsyslog</strong></em> for this workshop).</li>
+<li>Windows can, also, use syslog with extra tools.</li>
+<li>Save a copy of the logs locally, but, also, save them to a central log server.</li>
+</ul>
+<hr>
+<style scoped>
+p
+{
+    font-size: 75%;
+}
+table {
+    float: left;
+    font-size: 70%;
+    margin: 20px 50px
+}
+</style>
+<h2 id="syslog-basics">Syslog Basics</h2>
+<p><strong>Uses UDP protocol, port 514</strong>
+Syslog messages have two attributes
+(in addition to the message itself):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Facility</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Auth</td>
+<td style="text-align:center">Security</td>
+</tr>
+<tr>
+<td style="text-align:center">Authpriv</td>
+<td style="text-align:center">User</td>
+</tr>
+<tr>
+<td style="text-align:center">Console</td>
+<td style="text-align:center">Syslog</td>
+</tr>
+<tr>
+<td style="text-align:center">Cron</td>
+<td style="text-align:center">UUCP</td>
+</tr>
+<tr>
+<td style="text-align:center">Daemon</td>
+<td style="text-align:center">Mail</td>
+</tr>
+<tr>
+<td style="text-align:center">Ftp</td>
+<td style="text-align:center">Ntp</td>
+</tr>
+<tr>
+<td style="text-align:center">Kern</td>
+<td style="text-align:center">News</td>
+</tr>
+<tr>
+<td style="text-align:center">Lpr</td>
+<td style="text-align:center">Local0 ... Local7</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Emergency</td>
+<td>(0)</td>
+</tr>
+<tr>
+<td>Alert</td>
+<td>(1)</td>
+</tr>
+<tr>
+<td>Critical</td>
+<td>(2)</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>(3)</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>(4)</td>
+</tr>
+<tr>
+<td>Notice</td>
+<td>(5)</td>
+</tr>
+<tr>
+<td>Info</td>
+<td>(6)</td>
+</tr>
+<tr>
+<td>Debug</td>
+<td>(7)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<style scoped>
+img {
+    width: 98%;
+    margin: -30px 10px auto;
+}
+</style>
+<h2 id="centralized-logging">Centralized Logging</h2>
+<p><img src="../images/syslog.png" alt="syslog"></p>
+<hr>
+<style scoped>
+img {
+    float: right;
+    width: 40%;
+    margin: auto -20px;
+}
+</style>
+<h2 id="syslog-ng">Syslog-ng</h2>
+<p><img src="../images/syslog-ng-open-source.png" alt="Syslog-ng Logo"></p>
+<p>Syslog-ng Open Source Edition, is a flexible and simplified log collection and processing solution.</p>
+<ul>
+<li>It extends the original syslogd model with:
+<ul>
+<li>content-based filtering</li>
+<li>rich filtering capabilities</li>
+<li>flexible configuration options</li>
+<li>adds important features to syslog, like using TCP for transport</li>
+</ul>
+</li>
+<li><a href="https://www.syslog-ng.com/">https://www.syslog-ng.com/</a></li>
+</ul>
+<hr>
+<style scoped>
+ol, ul {
+    font-size: 85%;
+}
+p{
+    margin-top: -20px;
+    font-size: 40%;
+    float: right;
+}
+</style>
+<h2 id="syslog-ng---receiving-messages">Syslog-ng - Receiving Messages</h2>
+<ul>
+<li>Identify the facility that the equipment is going to use to send its messages.</li>
+<li>Reconfigure syslog-ng to listen to the network*
+<ul>
+<li>In Ubuntu update <code>/etc/syslog-ng/syslog-ng.conf</code></li>
+</ul>
+</li>
+<li>Create the following file*
+<code>/etc/syslog-ng/conf.d/10-network.conf</code></li>
+<li>Create a new directory for logs:
+<code># mkdir -p /var/log/remote-syslog</code>
+or
+<code># mkdir -p /var/log/syslog-ng</code></li>
+<li>Restart the syslog-ng service:
+<code># systemctl restart syslog-ng</code></li>
+</ul>
+<p>*See logging exercises for details</p>
+<hr>
+<style scoped>
+ol, ul {
+    font-size: 95%;
+}
+</style>
+<h2 id="configuring-centralized-logging">Configuring Centralized Logging</h2>
+<ul>
+<li><strong>Cisco hardware</strong>
+<ul>
+<li>At a minimum:
+<code>logging ip.of.logging.host</code></li>
+</ul>
+</li>
+<li><strong>Unix and Linux nodes</strong>
+<ul>
+<li>In syslogd.conf, or in rsyslog.conf, add:
+<code>*.* @ip.of.log.host</code></li>
+<li>Restart syslogd, rsyslog or syslog-ng</li>
+</ul>
+</li>
+<li>Other equipment have similar options
+<ul>
+<li>Options to control <code>facility</code> and <code>level</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<style scoped>
+p {
+    font-size: 80%
+}
+</style>
+<h2 id="grouping-logs">Grouping Logs</h2>
+<ul>
+<li>Using <code>facility</code> and <code>level</code> you can group by category in distinct files.</li>
+<li>With software such as <code>rsyslog</code> you can group by machine, date, etc. automatically in different directories.</li>
+<li>You can use <code>grep</code> to review logs.</li>
+<li>You can use typical UNIX tools to group and eliminate items that you wish to filter:
+<code>egrep -v '(list 100 denied|logging rate-limited)' mylogfile</code></li>
+<li>Is there a way to do this automatically?</li>
+</ul>
+<hr>
+<style scoped>
+img {
+    float: right;
+    width: 35%;
+    margin: auto -20px;
+}
+</style>
+<h2 id="syslog-ng-alternative">Syslog-ng Alternative</h2>
+<h3 id="rsyslog">RSYSLOG</h3>
+<p><img src="../images/rsyslog-logo.png" alt="rsyslog Logo"></p>
+<p>is the <strong>r</strong>ocket-fast <strong>sys</strong>tem for <strong>log</strong> processing.</p>
+<ul>
+<li>It offers high-performance, great security features and a modular design.</li>
+<li>It is included by default in Ubuntu.</li>
+<li><a href="https://www.rsyslog.com/">https://www.rsyslog.com/</a></li>
+</ul>
+<hr>
+<h2 id="tenshi">Tenshi</h2>
+<ul>
+<li>Simple and flexible log monitoring tool
+<a href="https://inversepath.com/tenshi.html">https://inversepath.com/tenshi.html</a></li>
+<li>Messages are classified into queues, using regular expressions</li>
+<li>Each queue can be configured to send a summary e-mail within a time period</li>
+<li>E.G. You can tell Tenshi to send you a summary of all matching messages every 5 minutes to avoid cluttering your mailbox</li>
+</ul>
+<hr>
+<h2 id="tenshi--sample-configuration">Tenshi- Sample Configuration</h2>
+<pre class="hljs"><code><div>set uid tenshi
+set gid tenshi
+
+set logfile /log/dhcp
+
+set sleep 5
+set limit 800
+set pager_limit 2
+set mailserver localhost
+set subject tenshi report
+set hidepid on
+
+set queue dhcpd tenshi@localhost lab@srvX.lab.shakya.io [*/10 * * * *]
+
+group ^dhcpd:
+dhcpd ^dhcpd: .+no free leases
+dhcpd ^dhcpd: .+wrong network
+group_end
+</div></code></pre>
+<hr>
+<style scoped>
+ol, ul {
+    font-size: 80%;
+}
+</style>
+<h2 id="to-learn-more-about-syslog">To Learn More About Syslog</h2>
+<ul>
+<li>RFC 5424: Syslog Protocol
+<a href="https://tools.ietf.org/html/rfc5424">https://tools.ietf.org/html/rfc5424</a></li>
+<li>RFC 5426: Transmission of Syslog Messages over UDP
+<a href="https://tools.ietf.org/html/rfc5426">https://tools.ietf.org/html/rfc5426</a></li>
+<li>Transmission of syslog messages over UDP draft-ietfsyslog-transport-udp-00
+<a href="https://tools.ietf.org/html/draft-ietf-syslog-transport-udp-00">https://tools.ietf.org/html/draft-ietf-syslog-transport-udp-00</a></li>
+<li>Wikipedia Syslog Entry
+<a href="https://en.wikipedia.org/wiki/Syslog">https://en.wikipedia.org/wiki/Syslog</a></li>
+<li>Cisco Press: An Overview of the Syslog Protocol
+<a href="http://www.ciscopress.com/articles/article.asp?p=426638">http://www.ciscopress.com/articles/article.asp?p=426638</a></li>
+</ul>
+<hr>
+<!--
+_class: lead
+_paginate: false
+-->
+<h2 id="fit---question"><!--fit--> <img class="emoji" alt="question" src="data:image/png;base64,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" /></h2>
+<!-- Slide end -->
+
+</body>
+</html>
